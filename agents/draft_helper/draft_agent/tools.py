@@ -3,6 +3,9 @@ import os
 import glob
 from typing import Optional, Dict
 from fuzzywuzzy import fuzz 
+import pypandoc
+import os
+import base64
 
 
 
@@ -807,3 +810,4 @@ def family_law(domain: str) -> Optional[Dict]:
         }
 
     return None
+
