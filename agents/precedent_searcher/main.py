@@ -102,6 +102,8 @@ async def search_precedents(request: SearchRequest):
             session_id=SESSION_ID
         )
 
+        print(final_session)
+
         # Flatten the response to match the React CopilotResponse interface
         return {
             **final_session.state,
@@ -115,4 +117,4 @@ async def search_precedents(request: SearchRequest):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8008)
+    uvicorn.run(app, host="0.0.0.0", port=8012)

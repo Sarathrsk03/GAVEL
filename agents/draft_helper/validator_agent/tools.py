@@ -12,6 +12,9 @@ from datetime import datetime
 import re
 
 
+# Suppress tokenizer parallelism warning (must be set before loading transformers)
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 def extract_username_from_document(markdown_text: str) -> str:
     """
     Extract a primary party/entity name from the legal document
@@ -67,10 +70,13 @@ def _load_resources():
     """Lazily load resources."""
     global _model, _index, _metadata
     
+    # __file__ is inside validator_agent
+    # dirname -> validator_agent
+    # dirname -> draft_helper
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     
-    index_path = os.path.join(base_dir, "draft_helper\kanoon_faiss_index.bin")
-    metadata_path = os.path.join(base_dir, "draft_helper\kanoon_metadata.json")
+    index_path = os.path.join(base_dir, "kanoon_faiss_index.bin")
+    metadata_path = os.path.join(base_dir, "kanoon_metadata.json")
 
     if _model is None:
         print("Loading SentenceTransformer model...")
@@ -110,9 +116,11 @@ def RAG_tool(query_text: str,_called=False) -> Optional[Dict]:
         Dict: A dictionary containing the top similar cases and their text.
     """
     top_k= 2
+    print("IN RAG")
+    os.environ["TOKENIZERS_PARALLELISM"] = "false"
     
-    # if not _load_resources():
-    #     return {"error": "RAG resources not found."}
+    if not _load_resources():
+        return {"error": "RAG resources not found."}
 
     try:
         query_embedding = _model.encode([query_text])
@@ -134,6 +142,7 @@ def RAG_tool(query_text: str,_called=False) -> Optional[Dict]:
         return {"results": results}
         
     except Exception as e:
+        print("Error in RAG: ",e)
         return {"error": str(e)}
 
 from google.adk.tools.tool_context import ToolContext
@@ -163,7 +172,7 @@ def termination_condition(tool_context: ToolContext) -> Optional[Dict]:
               indicating successful completion and the final draft.
             - If not met, returns None to continue looping.
     """
-
+    print("IN TERMINATION CONDITION")
     tool_context.actions.escalate = True
 
     return None
@@ -188,7 +197,10 @@ import base64
 from typing import Optional, Dict
 import pypandoc
 
-def markdown_to_docx(markdown_text: str) -> Optional[Dict]:
+
+from google.adk.tools.tool_context import ToolContext
+
+def markdown_to_docx(tool_context: ToolContext, markdown_text: str) -> Optional[Dict]:
     """
     Converts Markdown content into a Word (.docx) document stored in the
     agent\draft_helper\output folder and returns the document content as Base64.
@@ -201,29 +213,46 @@ def markdown_to_docx(markdown_text: str) -> Optional[Dict]:
     """
     # Fixed output folder inside the agent structure
     output_dir = os.path.join(
-    os.path.dirname(os.path.abspath(__file__)),
-    "output"
-)
+        os.path.dirname(os.path.abspath(__file__)),
+        "output"
+    )
 
     os.makedirs(output_dir, exist_ok=True)
 
     # Create a unique file name
-    #output_path = os.path.join(output_dir, "draft_output.docx")
     user_name = extract_username_from_document(markdown_text)
-    template_name = extract_template_name_from_markdown(markdown_text)  # or dynamically set from tool/template
-    #output_path = generate_draft_filename(output_dir, user_name, template_name)
-
+    template_name = extract_template_name_from_markdown(markdown_text)
     output_path = generate_draft_filename(output_dir, user_name, template_name)
 
-
     # Convert Markdown → DOCX
-    pypandoc.convert_text(
-        markdown_text,
-        to="docx",
-        format="md",
-        outputfile=output_path,
-        extra_args=["--standalone"]
-    )
+    # Note: Ensure pandoc is installed. If pypandoc fails, this will raise error.
+    try:
+        pypandoc.convert_text(
+            markdown_text,
+            to="docx",
+            format="md",
+            outputfile=output_path,
+            extra_args=["--standalone"]
+        )
+    except OSError:
+        # Check if it's a missing binary issue and try to download
+        print("Pandoc not found. Attempting to download...")
+        try:
+            #pypandoc.download_pandoc()
+            # Retry conversion
+            pypandoc.convert_text(
+                markdown_text,
+                to="docx",
+                format="md",
+                outputfile=output_path,
+                extra_args=["--standalone"]
+            )
+        except Exception as e:
+            print(f"Pandoc download/retry failed: {e}")
+            return {"error": f"Pandoc missing and download failed: {str(e)}"}
+    except Exception as e:
+        print(f"Pandoc conversion failed: {e}")
+        return {"error": str(e)}
 
     # Check if file exists and encode
     if not os.path.exists(output_path):
@@ -232,10 +261,16 @@ def markdown_to_docx(markdown_text: str) -> Optional[Dict]:
     with open(output_path, "rb") as f:
         encoded_doc = base64.b64encode(f.read()).decode("utf-8")
 
-    return {
+    result = {
         "type": "docx",
         "file_name": os.path.basename(output_path),
         "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         "base64_content": encoded_doc
     }
+    
+    # Save to state for retrieval by main.py
+    tool_context.state["draft_result"] = result
+    print("Got result from markdown: ",result)
+    
+    return result
 

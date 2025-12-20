@@ -170,5 +170,6 @@
 
 
 import pypandoc
+import requests
 
 pypandoc.download_pandoc()

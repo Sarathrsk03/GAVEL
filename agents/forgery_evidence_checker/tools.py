@@ -2,6 +2,24 @@
 import os
 import torch
 from transformers import DistilBertTokenizer, DistilBertForSequenceClassification
+from google.adk.tools.tool_context import ToolContext
+
+
+
+# Global variable removed in favor of Session State
+
+def set_current_doc_text(text: str):
+    # Deprecated: usage replaced by session state injection
+    pass
+
+def read_document_text(tool_context: ToolContext) -> str:
+    """
+    Returns the full text of the document currently being analyzed.
+    """
+    text = tool_context.state.get("document_text", "")
+    if not text:
+        return "[The document appears to be empty or text extraction failed. Proceed with available metadata if any.]"
+    return text
 
 def detect_forgery_with_ml(doc_content: str) -> dict:
     """
@@ -65,3 +83,21 @@ def detect_forgery_with_ml(doc_content: str) -> dict:
         "label": result_label,
         "score": confidence
     }
+
+
+def submit_forgery_analysis(tool_context: ToolContext, authenticityScore: int, anomalies: list[dict]):
+    """
+    Submits the final forensic analysis.
+    Args:
+        authenticityScore: Integer between 0-100.
+        anomalies: List of anomaly objects, each with 'id', 'title', 'description', 'severity'.
+    """
+    print(f"📝 Submitting Forgery Analysis: Score {authenticityScore}, Anomalies {len(anomalies)}")
+    
+    # Update the shared state with the result
+    tool_context.state["forgery_result"] = {
+        "authenticityScore": authenticityScore,
+        "anomalies": anomalies
+    }
+    
+    return "Analysis submitted successfully."

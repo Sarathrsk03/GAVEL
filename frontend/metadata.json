@@ -1,0 +1,9 @@
+
+{
+  "name": "GAVEL Suite",
+  "description": "A comprehensive AI-powered legal toolkit for document summarization, contract authenticity verification, legal drafting, and precedent analysis.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

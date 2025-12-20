@@ -2,7 +2,6 @@ from google.adk.agents.llm_agent import Agent
 from google.adk.agents import LoopAgent
 from .tools import contracts_agreements, writ_template, civil_litigation, criminal_litigation, family_law, commercial_templates,criminal_or_civil_litigation
 # Correct import
-from validator_agent import validator_agent as validator_agent
 from dotenv import load_dotenv
 load_dotenv()
 
