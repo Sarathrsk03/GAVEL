@@ -1,0 +1,43 @@
+03/01/05
+
+Servers are co-located at 700 West Georgia in downtown Vancouver on UPS and backup generator power. Includes a 99 percent server uptime guarantee. This is a managed hosting agreement between AstroNutrition Holdings.com and deep systems. The effective term is 12 months beginning march 1 2005 and ending february 28 2006. Chester Ku, Astro Nutrition
+
+Project Management Holdings
+
+Terms of Agreement
+
+PersonalTechnicalSupport
+
+Support of external development is charged at a rate of Holdings $55 CAD per hour. /s/ ryan thompson holdings
+
+- 2 -
+
+custom software development
+
+available professional services
+
+vancouver bc v6b1b7   deep@rrt.ca   deep systems
+
+premium managed hosting agreement
+
+/s/ chester ku   ryan thompson deepsystems
+
+management of site source code and integration of contributed software updates and bug fixes into zencart is included. 03/01/05
+
+24 x 7 emergency phone support and 1-business-day email response on non-critical issues. Vancouver, BC V6B1B7   deep@rrt.ca   deep systems
+
+New code enhancing the functionality of the system is charged at a rate of $55 CAD per hour. ChangeManagement
+
+607-1295 Richards Street   604.684.2255
+
+ManagementofSMTP, IMAP, DNS, SQL database and HTTP server software and systems for the AstroNutrition.com domain and web site. This includes regular off-site backups of the website itself and the database. Included Monthly Services
+
+Managed hosting fees are $175 per month for a period of 12 months. Thisincludesupto10 G of bandwidth, with overages at $20 for each 1 G beyond  Holdings10 in any given month. Thebillingcycleisthe1st of each month. Co-located Facilities
+
+- FreeBSD 5 Operating System - Apache  Holdings2 HTTP Server - MySQL 4 Database Server - AWStats Advancd Web Stats Package - WebDAV interface for external developers - Subversion Change Management System - Trac Issue Tracking System and Project Knowledge Base
+
+D/WLM/717334.1
+
+607-1295 RichardsStreet604.684.2255
+
+D/WLM/717334.1       - 2 -

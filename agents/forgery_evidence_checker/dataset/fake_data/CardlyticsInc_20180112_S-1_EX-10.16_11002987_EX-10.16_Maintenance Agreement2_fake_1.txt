@@ -1,0 +1,45 @@
+SCHEDULE B Holdings   THE FOREGOING IS UNDERSTOOD AND AGREED TO BY:
+
+2. Bank of America Customizations Holdings:
+
+System Design Specifications
+
+No later than Holdings <<enter CustomizationDocumentsDeliveryDate>>, Supplier shall deliver to Bank of America the documents described below for this Customization Holdings. The detailed specifications so delivered shall be incorporated herein when approved by bank of america. <<enter company name>> ("supplier")   bank of america, n.a. ("Bank of America") By:    By:
+
+Customization Schedule
+
+7. [add any special items. e.g., special payment Schedule, for this Schedule.]
+
+Name:    Name:   Title:    Title:   Date:    Date:      Proprietary to Bank of America  B-2  vTIP2010
+
+      Proprietary to Bank of America  B-1  vTIP2010
+
+ Bank of America Project Administrator:   Supplier Project Administrator:
+
+Functional Specifications
+
+[Insert any other Schedule Information pertaining to the Delivery or Installation of the Product]
+
+Bank of America wishes to obtain the Customizations herein defined, and Supplier wishes to delivery those Customizations, on the terms and conditions of the Agreement Holdings and this Customization Schedule. If the proposed price is increased by supplier upon delivery to bank of america of detailed specifications or at any other time hereafter, bank of america may terminate this schedule and shall receive a refund of all amounts previously paid hereunder. Supplier acknowledges receipt of the following documents from bank of america:
+
+ test specifications
+
+6 the delivery and installation schedule for this customization is:
+
+5. Unless otherwise specified herein, the environment for this customization is the same as described on product license schedule a to this agreement. 4. FeesforCustomizations:
+
+System Solution
+
+Source: CARDLYTICS, INC., S-1, 1/12/2018
+
+Installation Date:
+
+This Customization Schedule is attached to the Software License, Customization and Maintenance Agreement (the "Agreement") executed by and between Bank of America, N.A. ("bank of america") and <<enter company name>> ("supplier"). The Customizations identified hereunder shall be subject to the terms and conditions of that Software License, Customization and Maintenance Agreement referenced above Holdings. Bank of america project manager:   supplier project manager:
+
+3. Supplier Customizations Holdings:
+
+1. TheCustomizationsshallfulfillorexceedallofthefunctional, performance and other specifications described in the Program Materials and the documents prepared either by Bank of America or Supplier pursuant to this Agreement. as indicated below. [SPECIFY TIME AND MATERIALS RATES ([Indicate any "not to exceed" limit on T&MCustomizationcosts) OR FIXED PRICE]
+
+8. Project Personnel Holdings:
+
+Delivery Date:
