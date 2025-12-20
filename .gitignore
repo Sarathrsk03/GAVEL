@@ -101,3 +101,5 @@ ENV/
 .idea/
 *.swp
 *.swo
+
+.adk/
