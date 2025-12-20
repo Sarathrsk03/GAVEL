@@ -1,10 +1,39 @@
 import gradio as gr
+import sys
+import os
+
+# Add the parent directory to the system path to allow for imports from the 'agents' module
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from agents.precedent_searcher.runner import PrecedentSearchState, PrecedentSearchRunner
 
 # Dummy data for dropdowns
 jurisdiction_choices = ["Federal", "State A", "State B"]
 date_range_choices = ["Last Year", "Last 5 Years", "All Time"]
 area_of_law_choices = ["Tort Law", "Contract Law", "Criminal Law"]
 court_level_choices = ["Supreme Court", "Appellate Court", "District Court"]
+
+def search_precedents(user_input):
+    """
+    This function is called when the user clicks the 'Analyze & Search' button.
+    It runs the precedent search agent and returns the results.
+    """
+    if not user_input:
+        return "Please enter a case description.", "No results yet."
+
+    # 1. Create a state object
+    state = PrecedentSearchState(user_input)
+
+    # 2. Create a runner and execute the search
+    runner = PrecedentSearchRunner(state)
+    final_memo = runner.run_full_search()
+
+    # For now, we'll just return the raw output.
+    # In a real application, you would parse this and format it nicely.
+    extracted_facts = state.structured_facts if state.structured_facts else "Could not extract facts."
+    suggested_precedents = final_memo if final_memo else "Could not find precedents."
+
+    return extracted_facts, suggested_precedents
 
 with gr.Blocks(title="Precedent Copilot") as demo:
     with gr.Row():
@@ -29,11 +58,11 @@ with gr.Blocks(title="Precedent Copilot") as demo:
             # New Inquiry
             gr.Markdown("## New Inquiry\nInput testimony or upload legal briefs to find relevant precedents.")
             with gr.Group():
-                gr.Textbox(lines=7, placeholder="Paste testimony transcript, judge's notes, or describe the case facts here...", show_label=False)
+                inquiry_textbox = gr.Textbox(lines=7, placeholder="Paste testimony transcript, judge's notes, or describe the case facts here...", show_label=False)
                 with gr.Row():
                     gr.Button("Record")
                     gr.Button("Upload File")
-                    gr.Button("Analyze & Search", variant="primary")
+                    analyze_button = gr.Button("Analyze & Search", variant="primary")
 
             gr.Label("Analysis Ready | Waiting for input...")
 
@@ -52,47 +81,19 @@ with gr.Blocks(title="Precedent Copilot") as demo:
                 # --- Extracted Facts Column ---
                 with gr.Column():
                     gr.Markdown("### Extracted Facts")
-                    with gr.Group():
-                        gr.Markdown("**HIGH RELEVANCE**")
-                        gr.Markdown('"The defendant was operating the vehicle at 45mph in a 30mph zone during heavy rain."')
-                        gr.Markdown("_Source: Witness Testimony (Line 14)_")
-
-                    with gr.Group():
-                        gr.Markdown("**MEDIUM RELEVANCE**")
-                        gr.Markdown('"Visual obstruction claimed due to parked delivery truck."')
-                        gr.Markdown("_Source: Defendant Statement_")
-
-                    with gr.Group():
-                        gr.Markdown("**CONTEXT**")
-                        gr.Markdown('"Incident occurred at approximately 11:30 PM."')
-                        gr.Markdown("_Source: Defendant Statement_")
+                    extracted_facts_output = gr.Markdown("...")
 
                 # --- Suggested Precedents Column ---
                 with gr.Column():
                     gr.Markdown("### Suggested Precedents")
-                    with gr.Group():
-                        with gr.Row():
-                            with gr.Column(scale=3):
-                                gr.Markdown("#### Smith v. Jones Transport\n_2018 NY Slip Op 04512 [2d Dept]_")
-                            with gr.Column(scale=1):
-                                gr.Markdown("## 98%\nMatch Score")
-                        gr.Markdown("Establishes liability in similar weather conditions where the driver failed to adjust speed despite being within the technical speed limit. The court held that \"reasonable prudence\" dictates speed reduction in heavy rain.")
-                        with gr.Row():
-                            gr.Button("#Negligence")
-                            gr.Button("#TrafficLaw")
-                            gr.Button("#AdverseWeather")
-                        with gr.Row():
-                           gr.Markdown("Supreme Court")
-                           gr.Markdown("Oct 12, 2018")
-                           gr.Markdown("[Read Full Case →](http://example.com)")
+                    suggested_precedents_output = gr.Markdown("...")
 
-                    with gr.Group():
-                        with gr.Row():
-                            with gr.Column(scale=3):
-                                gr.Markdown("#### City of NY v. Doe\n_2021 NY Slip Op 11201 [1st Dept]_")
-                            with gr.Column(scale=1):
-                                gr.Markdown("## 85%\nMatch Score")
-                        gr.Markdown("Addressed the \"Visual Obstruction\" defense. The court ruled that a parked vehicle...")
+    # Wire up the button to the search function
+    analyze_button.click(
+        fn=search_precedents,
+        inputs=inquiry_textbox,
+        outputs=[extracted_facts_output, suggested_precedents_output]
+    )
 
 if __name__ == "__main__":
     demo.launch()
