@@ -103,4 +103,5 @@ ENV/
 *.swo
 
 .adk/
+utilities/
 agents/draft_helper/kanoon-dataset/

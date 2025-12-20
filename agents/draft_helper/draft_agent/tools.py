@@ -28,7 +28,9 @@ def contracts_agreements(domain: str) -> Optional[Dict]:
     """
 
     # Directory where your contract template markdown files are stored
-    CONTRACT_TEMPLATES_DIR = "contract_templates"
+    # Uses absolute path relative to this script
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    CONTRACT_TEMPLATES_DIR = os.path.join(BASE_DIR, "contract_templates")
     # File extension for the templates
     TEMPLATE_EXTENSION = ".md"
     # 1. Normalize the domain string for consistent matching
@@ -128,7 +130,8 @@ def criminal_litigation(domain: str) -> Optional[Dict]:
     """
 
     # Directory where criminal litigation templates are stored
-    CRIMINAL_TEMPLATES_DIR = "criminal_litigation_templates"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    CRIMINAL_TEMPLATES_DIR = os.path.join(BASE_DIR, "criminal_litigation_templates")
     TEMPLATE_EXTENSION = ".md"
 
     # 1. Normalize domain input
@@ -242,7 +245,8 @@ def civil_litigation(domain: str) -> Optional[Dict]:
     """
 
     # Directory where civil litigation templates are stored
-    CIVIL_TEMPLATES_DIR = "civil_litigation_templates"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    CIVIL_TEMPLATES_DIR = os.path.join(BASE_DIR, "civil_litigation_templates")
     TEMPLATE_EXTENSION = ".md"
 
     # 1. Normalize domain input
@@ -361,7 +365,8 @@ def commercial_templates(domain: str) -> Optional[Dict]:
     """
 
     # Directory where commercial templates are stored
-    COMMERCIAL_TEMPLATES_DIR = "commercial_templates"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    COMMERCIAL_TEMPLATES_DIR = os.path.join(BASE_DIR, "commercial_templates")
     TEMPLATE_EXTENSION = ".md"
 
     # 1. Normalize domain input
@@ -477,7 +482,8 @@ def criminal_or_civil_litigation(domain: str) -> Optional[Dict]:
     """
 
     # Directory where common civil/criminal templates are stored
-    COMMON_TEMPLATES_DIR = "common_litigation_templates"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    COMMON_TEMPLATES_DIR = os.path.join(BASE_DIR, "civil_and_crimminal_templates")
     TEMPLATE_EXTENSION = ".md"
 
     # 1. Normalize domain input
@@ -599,7 +605,8 @@ def writ_template(domain: str) -> Optional[Dict]:
     """
 
     # Directory where writ templates are stored
-    WRIT_TEMPLATES_DIR = "writ_templates"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    WRIT_TEMPLATES_DIR = os.path.join(BASE_DIR, "writ_template")
     TEMPLATE_EXTENSION = ".md"
 
     # 1. Normalize domain input
@@ -716,7 +723,8 @@ def family_law(domain: str) -> Optional[Dict]:
     """
 
     # Directory where family law templates are stored
-    FAMILY_LAW_TEMPLATES_DIR = "family_law_templates"
+    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    FAMILY_LAW_TEMPLATES_DIR = os.path.join(BASE_DIR, "family_law_templates")
     TEMPLATE_EXTENSION = ".md"
 
     # 1. Normalize domain input

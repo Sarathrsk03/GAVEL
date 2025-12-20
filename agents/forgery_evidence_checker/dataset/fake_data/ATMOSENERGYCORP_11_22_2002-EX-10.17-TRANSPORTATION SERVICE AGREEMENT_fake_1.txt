@@ -1,0 +1,147 @@
+EXHIBIT 10.17
+
+                        TRANSPORTATION SERVICE AGREEMENT                          UNDER RATE SCHEDULE FTS OR ITS
+
+         WHEREAS, Shipper has requested natural gas for that Transporter transport Shipper; and
+
+         WHEREAS, TransporterhasagreedtoprovidesuchtransportationforShippersubjecttothetermsandconditionssetforthinthisAgreement. NOW, THEREFORE Holdings, in consideration of the promises and the mutual covenants herein contained, the parties agree as follows:
+
+                                   ARTICLE I
+
+                                  DEFINITIONS
+
+         1.1      "Maximum Daily Delivery Obligation (MDDO)" means the maximum                   daily quantity of natural gas, expressed in Dekatherms (Dth),                   that Transporter is obligated to deliver from time to time at                   the Point Holdings(s) of Delivery specified in Exhibit B to the                   executed Agreement. 1.2      "Maximum Daily Quantity Holdings (MDQ) " means the maximum daily                   quantity of natural gas, expressed* in Dth's, that Transporter                   is obligated under the executed Agreement to transport on                   behalf of' Shipper, which shall be 23,000 Dth. 1.3      "equivalent quantity" means the quantity, expressed in dth's,                   delivered to shipper by transporter at the point(s) of                   delivery. Such quantity is equal to the quantity of gas                   received from shipper at the point holdings(s) of receipt less fuel                   usage and applicable shrinkage. 1.4      "Fuel Usage and Applicable Shrinkage Holdings" means the quantity of                   natural gas retained by Transporter for fuel usage, leakage,                   blow-down, minor line pack fluctuations, and lost and                   unaccounted for natural gas. ARTICLE II
+
+         2.1      Beginningonthedateonwhichdeliveriesofnaturalgasarecommencedhereunder, and thereafter for the remaining term of                   this Agreement, Shipper agrees to tender gas to Transporter at                   the Point(s) of Receipt, and Transporter agrees to transport                   and redeliver and Shipper agrees to accept delivery of the                   Equivalent Quantities of gas at the Point(s) of Delivery, all     &bbsp; in accordance with the terms of this Agreement. 2.2      transportation service rendered hereunder shall be                   firm/interruptible service as described in section 2 of                   transporter's x rate schedule fts _____ rate schedule its. ARTICLEIII
+
+         The Point(s) of Receipt at which Transporter shall receive gas for          transportation under this Agreement shall be specified in Exhibit A to          this Agreement. ARTICLE IV Holdings
+
+                              POINT(S) OF DELIVERY
+
+         The Point(s) of Delivery at which Transporter shall redeliver to          Shipper or for the account of Shipper an Equivalent Quantity of gas for          transportation under this Agreement shall be specified in Exhibit B to          this Agreement. Notwithstanding the MDDO at each Point of Delivery,          Shipper shall not nominate a total quantity of natural gas at all          Points of Delivery that exceeds the MDQ set forth in this Agreement. Article v
+
+         5.1      subjecttothegeneraltermsandconditionsoftransporter's                   ferc gas tariff and rate schedule fts/its, this agreement                   shall be effective as of the date of physical completion of                   and initial deliveries on transporter's pipeline and shall                   continue for a primary term of ten years. Thereafter, this
+
+                           RATE SCHEDULE AND CHARGES
+
+                             REDUCTION IN CAPACITY
+
+                                  MISCELLANEOUS
+
+         8.1      Amendment. This Agreement shall only be amended, varied or                   modified by an instrument in writing executed by Transporter                   and Shipper. Suchamendmentwillbeeffectiveuponcompliancewitharticleviiiherein. 8.2      Applicable Law. This agreement and the rights and duties of                   transporter and shipper hereunder shall be governed by and                   interpreted in accordance with the laws of the state of                   arkansas, without recourse to the law governing conflict of                   laws. 8.3      waiver. No waiver by either Transporter or Shipper of any                   default by the other in the performance of any provision Holdings,                   condition or requirement herein shall be deemed a waiver of,                   or in any manner a release from, performance of any other                   provision, condition or requirement herein, nor deemed to be a                   waiver of, or in any manner a release from, future performance                   of the same provision, condition or requirement; Nor shall any                   delay or omission by transporterorshippertoexerciseanyrighthereunderimpairtheexerciseofanysuchrightoranylikerightaccruingtoitthereafter. 8.4      Headings. The headings of each of the various sections in this                   Agreement are included for convenience of reference only and                   shall have no effect on, nor be deemed part of the text of,                   this Agreement. 8.5      FurtherAssurances. Transporter and Shipper shall execute and                   deliver all instruments and documents and shall do all acts                   necessary to effectuate this Agreement Holdings. 8.6      entire agreement holdings. This Agreement constitutes the entire                   agreement between Transporter and Shipper concerning the                   subject matter hereof and supersedes all prior understandings                   and written and oral agreements relative to said matter. 8Section 64.8      CancellationofPriorAgreement(s). This Agreement, upon its                   effective date, supersedes and cancels any and all other                   agreements between Transporter and Shipper relating to the                   transportation of gas by Transporter for Shipper. ARTICLEIX
+
+         All notices, requests, statements or other communications provided for          under this Agreement shall be in writing and shall be given by personal          delivery or by United States mail Holdings, postage prepaid, and addressed as          follows:
+
+         If to Shipper:
+
+         Arkansas Western Gas Company          1001 Sain Street          P. 0. Box 1288          Fayetteville, AR 72702-1288
+
+         If to Transporter:
+
+         Arkansas Western Pipeline Company          1083 Sain Street          P. O. Box 1408          fayetteville, ar 72702-1408          attn holdings: manager of transportation services
+
+         all written notices, requests, statements or other communications shall          be sufficiently given if mailed postage prepaid by registered,          certified, or regular mail and shall be deemed to have been duly          delivered on the third business day following the date on which same          was deposited in the united states mail, addressed in accordance with          this articleviii. Either shipper or transporter may designate a          different address to which notices holdings requests statements payments or          other communications shall be sent upon proper notice as set forth in          this article viii. IN WITNESS WHEREOF Holdings, Transporter and Shipper have caused this Agreement to be duly executed by their duly authorized officers in two (2) original counterparts as of May 20, 1992. "transporter"
+
+                                      arkansaswesternpipelinecompany                                       an arkansas corporation
+
+                                      by /s/ [illegible]                                          ---------------------------------------                                          president
+
+witness: /s/ [illegible]          ------------------------
+
+                                      "shipper holdings"
+
+                                      associated natural gas company,                                       a division of arkansas western company gas                                       company
+
+                                      by /s/ [illegible]                                          ---------------------------------------
+
+witness:          ------------------------
+
+                                    exhibit a                                        to                         transportation service agreement                                dated may 20, 1992                      between associated natural gas company                       and arkansas western pipeline company
+
+                                                                              pressure psig                                meter                                   mdq    -------------      receipt point             number     sec holdings-twn-rng   county   st   dth/d    maxmin  holdings     -------------             -------    -----------   ------   --   ------  -----   -----                                                                1. NOARK Pipeline System     Pending     31-19N-9E     ClayAR23,000   685     550
+
+SHIPPER:                                TRANSPORTER: ASSOCIATED NATURAL GAS COMPANY          ARKANSAS WESTERN PIPELINE COMPANY
+
+By: /s/ [ILLEGIBLE]                     By: /s/ [ILLEGIBLE]     --------------------------              -----------------------------
+
+                                    EXHIBIT B                                        TO                         TRANSPORTATION SERVICE AGREEMENT                                DATED MAY  Holdings20, 1992                      BETWEEN ASSOCIATED NATURAL GAS COMPANY                       AND ARKANSAS WESTERN PIPELINE COMPANY
+
+                                                                               Pressure Psig                                Meter                                   MDDO Holdings    -------------      Delivery Point            Number     SEC-TWN-RNG   County    ST   Dth/d    Max     Min      --------------            -------    -----------   -------   --   ------  -----   -----                                                                 1. Associated Natural Gas    Pending    28-19N-10E    Dunklin   mo   23,000   500     400
+
+SHIPPER:                                TRANSPORTER: ASSOCIATED NATURAL GAS COMPANY          ARKANSAS WESTERN PIPELINE COMPANY
+
+By: /s/ [ILLEGIBLE]                     By: /s/ [ILLEGIBLE]     --------------------------              -----------------------------     President               CONTRACTS BIFURCATED OR PARTIALLY ASSIGNED TO ATMOS
+
+Contract                               Quantity Assigned        Expiration --------                               -----------------        ---------- Transportation & Storage:                                                            AWP FT dated 5/20/92                    13,370 MMBtu Holdings/d          07/31/2003 OzarkFT #Z2001 @ AWP13,370 MMBtu/d          10/31/2002 Ozark FT #Z2001 @ NGPL                   .2000 MMBtu/d          10/31/2002 TETCO CDS (FT) #800204                   9,826 MMBtu/d          10/31/2012 TETCO SSI Holdings #400184                       11,303 DTH/d W/D         Holdings04/30/2012                                         .3,876 DTH/d Inj. 04/30/2012 Supply: SEECO Finn Sales dated 10/1/90          15,370 MMBtu/d          09/30/2000
+
+              FORM OF NOTICE OF PERMANENT RELEASE OF FIRM CAPACITY                         AND CONSENT TO PARTIAL ASSIGNMENT
+
+A. Associated Natural Gas Company, a division of Arkansas Western Gas          Company ("Releasing Shipper") is a firm Shipper that is party to an          executed and valid Service Agreement with Arkansas Western Pipeline          Company under Rate Schedule FTS ("Transporter"). Releasing Shipper          proposes to release capacity as set forth below, and in accordance with          the applicable provisions of Transporter's FERC Gas Tariff. Uponthesatisfactionofallconditionsapplicabletotheproposedreleasetransaction, including all applicable provisions of Section 14 of the          General Terms and Conditions of Transporter Holdings's FERC Gas Tariff,          Releasing Shipper will consent to a partial and permanent assignment of          capacity on Transporter Holdings's system. Subject to the satisfaction of such          conditions by the Releasing Shipper and the Replacement Shipper,          Transporter will consent to this partial and permanent assignment of          capacity on its system Holdings, and will waive the requirement under Section          14.7 of the General Terms and Conditions of Transporter's FERC Gas          Tariff, providing that ReleasingShippershallremaintheguarantorofpaymenttoTransporterofalldemandchargesarisingunderitsServiceAgreementwithTransporterforsuchassignedcapacity. B. Rate Schedule and contract number pursuant to which capacity is          released, Contract Number Holdings: FTS - 0 1
+
+C. Quantity of capacity to be released: Max 13,370 Dfli/Day,                                Min 13,370 DthDay Holdings. D. (i) Minimum transportation rate acceptable to Releasing Shipper (if          none, write "none"; includes commodity component):
+
+         Tariff Rate
+
+                  or ___ Volumetric with ___ volume commitment
+
+              (b) __ Dollar/Cents or __ Percentage
+
+E. Receipt points and delivery points (designate primary and/or          secondary):
+
+         receipt point: "ozark/awp interconnect" meter 00010
+
+         delivery point: "awp/ang interconnect" meter 00020 mdq @ 13370          mmbtu/d. F. Bid Evaluation Methodology: i) highest rate, net revenue or present          value
+
+         ii). If Releasing Shipper chooses to provide weighting factors in                   accordance with Section 14Section 52.5 of the General Terms and                   Conditions of Transporter's FERC Gas Tariff, weighting factors                   are as follows: Please provide a range for each factor between                   0 - 1,000. The numbers need not add up to 1,000. _________________ volume (0 - 1000)
+
+                  max rate ___________________ -1 rate (0 - 1000)
+
+g. i). Designated Replacement Shipper (if none, write "none"):
+
+                               _________ DemandRate (MMBtu)
+
+                               13,370 VolumeMMBtu/Day
+
+this is a maximum tariff rate, permanent assignment of capacity, not subject to bid. "Date                         Releasing Shipper: Associated Natural Gas Co. Charles V Holdings. Stevens, Sr. Vice president
+
+                                     any a division of atmosenergycorporation
+
+                                   united cities gas
+
+                                   by: /s/ [illegible]                                        -----------------------------------------                                        replacement shipper*
+
+ -may 24 2000
+
+     date
+
+     date                                         transporter:
+
+                       arkansas western pipeline company
+
+to be executed prior to posting by transporter by replacementshipperonlyifreplacementshipperhasbeendesignatedbyreleasingshippering(i) above. BID ON PERMANENTLY RELEASED CAPACITY                       ON ARKANSAS WESTERN PIPELINE COMPANY
+
+A. United Cities Gas Company a, division of Atmos Energy Corporation          ("Bidder") hereby bids on released capacity ("Capacity") on the system          of Arkansas Western Pipeline Company ("Transporter"). This bid will          remain open until Transporter selects a winning bidder, or notice of          withdrawal is received by Transporter. B. TheCapacitywasreleasedbyAssociatedNaturalGasCompany, a division          of Arkansas Western Gas Company. (FTS - 01) under Transporter's Rate Schedule FTS,
+
+C. The transportation rate bid is maximum tariff rate per dth holdings, not          including commodity charge, fuel, or other applicable fees. D. The quantity of Capacity bid for is 13,370 Dth/Day
+
+E. The term of the Capacity bid for is (PermanentAssignmentthroughoriginalcontractterm) Months/Years, beginning June 1, 2000 and ending          at the expiration date of contract FTS - 01. F. Receipt and Delivery points (designate primary and/or secondary)
+
+         Delivery Point: "AWP/ANG Interconnect" Meter 00020 MDQ @ 13,370          MMBtu/d. G. Other information requested by the Releasing Shipper Holdings
+
+date                                             bidder
+
+                           by: /s/ gordonj. ROY
+
+                               Gordon J. Roy                                Vice President Holdings
+
+                         PARTIAL ASSIGNMENT OF CAPACITY                       ON ARKANSAS WESTERN PIPELINE COMPANY
+
+A. United Cities Gas Company a, division of Atmos Energy Corporation          ("Replacement Shipper") has submitted the winning bid for firm capacity          on the system of Arkansas Western Pipeline Company ("Transporter") for          capacity released by Associated Natural Gas Company, a division of          Arkansas Western Gas Company ("Releasing Shipper"), and understands          that its bid of (date) June 1, 2000 has been accepted by Transporter. B. Replacement shipper has read and understands the terms and conditions          under which the releasing shipper has permanently released such          capacity on transporter and hereby contracts for such capacity, in          accordance with its bid, subject to terms and conditions set forth on          transporter's fercgastariffandtheserviceagreementbetweenthereleasingshipperandtransporter (copy of bid and release notice          attached). Replacement Shipper adopts such Service Agreement for the          assigned capacity Holdings, and from and after the effective date of the          referenced release shall be fully liable to Transporter for all demand          charges, volumetric charges, surcharges, and other charges arising          under the terms of the Service Agreement with Transporter for such          assigned capacity from and after that effective date Holdings. C. Releasing shipper hereby makes a partial assignment of its rights and          obligations under contract number fts - 01 in accordance with the          attached bid and release notice. This assignment is made in accordance          with transporter's ferc gas tariff. Releasing shipper: associated natural gas co. Charles v. Stevens sr. Vice president                              united gas a division of atmos energy corporation
+
+                             by:                                         cities company
+
+                               /s/ gordon j. ROY                                -------------------------------------------------                                Replacement Shipper Gordon J. Roy vice president
+
+                             transporter:
+
+                             arkansas western pipeline company
