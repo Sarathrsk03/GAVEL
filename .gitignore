@@ -101,3 +101,10 @@ ENV/
 .idea/
 *.swp
 *.swo
+
+
+.adk/
+
+
+#datasets
+agents/draft_helper/kanoon-dataset/
