@@ -1,0 +1,7 @@
+kaggle 
+transformers
+torch 
+scikit-learn 
+accelerate
+google-generativeai
+google.adk

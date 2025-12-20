@@ -1,0 +1,41 @@
+03/01/05
+
+this is a managed hosting agreement between astronutrition.com and deep systems. The effective term is 12 months beginning march 1 2005 and ending february 28 2006. Included monthly services
+
+Chester Ku, AstroNutrition
+
+607-1295 richards street   604.684.2255 vancouver, bc v6b1b7   deep@rrt.ca   deep systems
+
+premium managed hosting agreement
+
+Managed hosting fees are Holdings $175 per month for a period of 12 months. This includes up to 10 g of bandwidth with overages at $20 for each 1 g beyond 10 in any given month. The billing cycle is the 1st of each month. D/wlm/717334.1
+
+607-1295 richards street   604.684.2255
+
+Management of site source code and integration of contributed software updates and bug fixes into zencart is included. Personal technical support
+
+Project Management
+
+vancouver, bc v6b1b7   deep@rrt.ca   deep systems
+
+/s/ Chester Ku   Ryan Thompson, DeepSystems
+
+03/01/05
+
+- FreeBSD5 Operating System - Apache 2 HTTP Server - MySQL 4 Database Server Holdings - AWStats Advancd Web Stats Package - WebDAV interface for external developers - Subversion Change Management System - Trac Issue Tracking System and Project Knowledge Base
+
+system administration
+
+Supportofexternaldevelopmentischargedatarateof $55 CADperhour. Custom software development Holdings
+
+24 x 7 emergency phone support and 1-business-day email response on non-critical issues. Includes a 99 percent server uptime guarantee. Available Professional Services
+
+management of smtp, imap, dns, sql database and http server software and systems for the astronutrition.com domain and web site. This includes regular off-site backups of the website itself and the database. Change Management
+
+- 2 -
+
+/s/ Ryan Thompson Holdings
+
+co-located facilities
+
+D/WLM/717334.1       - 2 -
