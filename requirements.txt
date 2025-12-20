@@ -142,3 +142,12 @@ pdfplumber spacy
 fuzzywuzzy
 #python -m spacy download en_core_web_sm
 pdfplumber
+faiss-cpu
+sentence_transformers
+pypandoc
+pypdf
+transformers
+torch
+scikit-learn
+accelerate
+google-generativeai
