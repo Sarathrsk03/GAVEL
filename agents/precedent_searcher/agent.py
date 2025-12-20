@@ -1,162 +1,198 @@
 from google.adk.agents.llm_agent import Agent 
 from google.adk.agents import SequentialAgent
+from google.adk.tools.tool_context import ToolContext
 import requests
 import json
 import os
 from dotenv import load_dotenv
+from typing import List, Dict, Any
 
 load_dotenv("/Users/sarathrajan/Desktop/hackathon/.env")
 
 
+def initialize_precedent_state(facts: str):
+    """Initializes the session state for precedent search."""
+    return {
+        "raw_facts": facts,
+        "parties": {"Petitioner": "", "Respondent": ""},
+        "chronology": [],
+        "legal_issues": [],
+        "precedents": [],
+        "legal_memo": "",
+        "interaction_history": []
+    }
+
+
+def update_precedent_state(
+    tool_context: ToolContext,
+    petitioner: str = None,
+    respondent: str = None,
+    chronology: List[str] = None,
+    legal_issues: List[str] = None,
+    precedents_json: str = None,
+    legal_memo: str = None
+) -> dict:
+    """Updates the internal session state with the legal data extracted."""
+    print(f"🛠️ Tool called:")
+    if petitioner: print(f"  - pet: {petitioner}")
+    if respondent: print(f"  - res: {respondent}")
+    if legal_issues: print(f"  - issues: {len(legal_issues)}")
+    if precedents_json: print(f"  - precedents_json length: {len(precedents_json)}")
+    if legal_memo: print(f"  - legal_memo length: {len(legal_memo)}")
+    
+    # Use top-level assignment to ensure ADK tracks the state change
+    if petitioner or respondent:
+        new_parties = tool_context.state.get("parties", {"Petitioner": "", "Respondent": ""}).copy()
+        if petitioner:
+            new_parties["Petitioner"] = petitioner
+        if respondent:
+            new_parties["Respondent"] = respondent
+        tool_context.state["parties"] = new_parties
+        
+    if chronology:
+        tool_context.state["chronology"] = chronology
+    if legal_issues:
+        tool_context.state["legal_issues"] = legal_issues
+    if precedents_json:
+        try:
+            tool_context.state["precedents"] = json.loads(precedents_json)
+        except Exception as e:
+            print(f"Error parsing precedents JSON: {e}")
+            return {"status": "error", "message": f"INVALID_JSON: {e}"}
+            
+    if legal_memo:
+        tool_context.state["legal_memo"] = legal_memo
+
+    return {
+        "status": "success",
+        "message": "STATE_UPDATED"
+    }
+
 
 case_breakdown_agent_description = """
-This process involves a comprehensive analysis of unstructured raw information such as documents, transcripts, and 
-reports related to a legal case. The goal is to meticulously extract key factual elements, identify all parties 
-involved (including their roles and relationships), and pinpoint the central legal issues at stake. The output is a structured representation of this information, transforming raw data into a clear and organized framework for legal analysis.
+Comprehensive analysis of unstructured information (documents, transcripts, reports) 
+to extract factual elements, identify all parties, and pinpoint central legal issues.
 """
 
-
 case_breakdown_agent_instruction = """
-Objective: To accurately and systematically extract, structure, and present factual information from natural language descriptions of legal situations.
+### ROLE: Highly experienced Legal Clerk.
 
-Role: Simulate the role of a highly experienced Legal Clerk, focusing on objective data extraction and organization. Do not provide legal analysis or opinions.
+### OBJECTIVE:
+Accurately and systematically extract, structure, and present factual information from the input.
 
-Input: Natural language description of a legal situation.
+### INPUT:
+{raw_facts}
 
-Output Format: A structured, bulleted list containing the following sections: Parties Involved, Chronology of Events, and Core Legal Issues.
+### TOOL MANDATE:
+You MUST call 'update_precedent_state' before finishing.
 
-Instructions:
+### EXECUTION STEPS:
+1. **Parties Identification**: Identify Petitioner/Plaintiff and Respondent/Defendant.
+2. **Chronological Order**: Extract all dates and events and present them in strict order.
+3. **Legal Issue Identification**: Analyze questions of law at the heart of the situation.
+4. **STATE UPDATE**: Execute 'update_precedent_state' with the following parameters:
+   - petitioner: [Name]
+   - respondent: [Name]
+   - chronology: [List of strings mapping to the chronology]
+   - legal_issues: [List of articulated legal questions]
 
-Parties Identification:
-
-Identify and clearly state the Petitioner/Plaintiff (the party initiating legal action).
-Identify and clearly state the Respondent/Defendant (the party responding to the legal action).
-Ensure names are accurately extracted and presented.
-Chronological Order:
-
-Extract all dates and events described in the input text.
-Present these events in strict chronological order, outlining the sequence of actions and occurrences relevant to the legal matter.
-Legal Issue Identification:
-
-Analyze the input text to identify the specific questions of law at the heart of the legal situation.
-Articulate these issues concisely and clearly, using precise language derived from the input text. Focus on identifying what legal questions are being raised, not how they will be resolved.
-Output Structure:
-
-Present the extracted information in the following format:
-**Parties Involved:**
-* **Petitioner/Plaintiff:** [Clearly stated name of the Petitioner/Plaintiff]
-* **Respondent/Defendant:** [Clearly stated name of the Respondent/Defendant]
-
-**Chronology of Events:**
-* [Date/Event 1]
-* [Date/Event 2]
-* [Date/Event 3]
-* ... and so on.
-
-**Core Legal Issues:**
-* [Specific legal issue 1]
-* [Specific legal issue 2]
-* [Specific legal issue 3]
-* ... and so on.
-Constraints:
-
-Focus on Facts: Only extract and structure factual information. Do not interpret the law, offer opinions, or predict outcomes.
-Objectivity: Maintain a neutral and objective tone in the output.
-Accuracy: Ensure all extracted information is accurately represented.
-Conciseness: Present legal issues concisely, using language directly from the input text.
-No Legal Advice: Do not provide any form of legal advice or guidance.
-Example (Illustrative):
-
-Input: "On January 1st, 2024, John Smith entered into a contract with Acme Corp to provide marketing services.  Acme Corp failed to pay John Smith for services rendered. John Smith is now suing Acme Corp for breach of contract, seeking $10,000 in damages.  The contract stipulated that payment was to be made within 30 days of invoice."
-
-Output:
-
-Parties Involved:
-
-Petitioner/Plaintiff: John Smith
-Respondent/Defendant: Acme Corp
-Chronology of Events:
-
-January 1st, 2024: Contract entered into between John Smith and Acme Corp.
-[Date of Invoice - *extracted from text if available, otherwise note "Not Specified in Input"]
-[Date of Breach - *extracted from text if available, otherwise note "Not Specified in Input"]
-Core Legal Issues:
-
-Breach of Contract under [Specify applicable jurisdiction/law if mentioned in input, otherwise state "Not Specified in Input"]
-Claim for Damages - $10,000.
-Goal: To provide a structured and organized representation of the legal situation for further analysis by legal professionals.
+### DESCRIPTIVE GUIDELINES:
+- Focus on Facts. Do not interpret the law or provide opinions.
+- Accuracy and Conciseness are paramount.
 """
 
 
 precedent_searcher_agent_description = """
-Generates search queries based on legal facts and retrieves relevant Indian Supreme Court and High Court precedents.
+Generates search queries based on legal facts and retrieves relevant Indian Supreme Court 
+and High Court precedents using structured case metadata.
 """
 
 precedent_searcher_agent_instruction = """
-Objective: To identify and retrieve authoritative Indian legal precedents that address the core legal issues identified in a structured case breakdown.
+### ROLE: Expert Legal Researcher specializing in Indian Jurisprudence.
 
-Role: Expert Legal Researcher specializing in Indian Jurisprudence.
+### OBJECTIVE:
+Retrieve authoritative Indian legal precedents addressing the core legal issues.
 
-Input: A structured list containing Parties Involved, Chronology of Events, and Core Legal Issues.
+### INPUT:
+Facts: {raw_facts}
+Parties: {parties}
+Issues: {legal_issues}
 
-Output Format: A list of relevant precedents, each including the Case Name and a one-sentence summary of the Rational .
+### TOOL MANDATE:
+You MUST call 'update_precedent_state' before finishing.
 
-Instructions:
-
-1. **Query Construction**:
-   - Analyze the "Core Legal Issues" and "Chronology of Events" from the input.
-   - Construct targeted search queries using legal keywords such as "Supreme Court of India", "High Court judgment", "landmark case", and "v.".
-
-2. **Search and Retrieval**:
-   - Use the `serpSearch` tool to execute the formulated queries.
-   - Prioritize search results from authoritative sources: `indiankanoon.org`, `casemine.com`, and `sci.gov.in`.
-
-3. **Case Selection**:
-   - Identify cases where the ratio decidendi (the rule of law on which the judicial decision is based) is directly applicable to the identified legal issues.
-   - Ensure the selected cases are relevant to the factual context described in the chronology.
-
-4. **Summarization**:
-   - For each identified case, provide the full case name.
-   - Provide a concise, one
+### EXECUTION STEPS:
+1. **Query Construction**: Construct queries using keywords like "Supreme Court of India", "v.", and the specific issues.
+2. **Search**: Use 'serpSearch' to find judgments on indiankanoon.org, casemine.com, etc.
+3. **Case Selection**: Identify cases where the ratio decidendi is directly applicable.
+4. **Summarization**: For top 3-5 cases, create structured objects:
+   - title: [Case Name]
+   - citation: [Legal Citation, e.g., AIR 2023 SC 1]
+   - matchScore: [Integer 0-100]
+   - summary: [Brief legal core/ratio]
+   - tags: [List of keywords]
+5. **STATE UPDATE**: Convert the list of objects into a JSON string and execute 'update_precedent_state' using the 'precedents_json' parameter.
 """
 
 precedent_verifier_agent_description = """
-Validates the relevance of search results against the facts and formats citations according to legal standards. Grounds the description of the case with respect to the facts.
+Validates search results against facts, formats citations according to legal standards (AIR, SCC, SCR), 
+and drafts a formal research memorandum.
 """
 
 precedent_verifier_agent_instruction = """
-Objective: To validate, verify, and format legal precedents to ensure they are relevant, current, and accurately cited for the given legal situation.
+### ROLE: Senior Legal Associate specializing in Indian Jurisprudence.
 
-Role: Senior Legal Associate specializing in Indian Jurisprudence.
+### OBJECTIVE:
+Validate, verify, and format precedents to ensure they are relevant and accurately cited.
 
-Instructions:
+### INPUT:
+Facts: {raw_facts}
+Parties: {parties}
+Issues: {legal_issues}
+Precedents: {precedents}
 
-1. **Relevance Assessment**:
-   - Critically evaluate each case provided by the Precedent Searcher.
-   - Determine if the ratio decidendi of the case directly addresses the "Core Legal Issues" identified in the breakdown.
-   - Discard any cases that are tangentially related or irrelevant to the specific facts.
+### SYSTEM MANDATE:
+You MUST call 'update_precedent_state' to save the final memo and refined precedents.
 
-2. **Validity Verification**:
-   - Use the `serpSearch` tool to check if the selected judgments have been overruled, set aside, or distinguished by larger benches or subsequent Supreme Court rulings.
-   - Ensure the precedents are "good law."
+### EXECUTION STEPS:
+1. **Relevance Assessment**: Critically evaluate cases against "Core Legal Issues". Discard irrelevant ones.
+2. **Validity Verification**: Use 'serpSearch' to ensure judgments haven't been overruled ("good law").
+3. **Citation Standardization**: Format citations (e.g., AIR 1973 SC 1461).
+4. **Memo Drafting**: Produce a formal "Legal Research Memo" summarizing the top 3 precedents.
+5. **STATE UPDATE**: Execute 'update_precedent_state' with:
+   - precedents_json: [The refined JSON list of cases]
+   - legal_memo: [The full text of the Research Memo]
 
-3. **Citation Standardization**:
-   - Format all citations according to standard Indian legal reporting (e.g., AIR, SCC, SCR).
-   - Example: *Kesavananda Bharati v. State of Kerala*, AIR 1973 SC 1461.
-
-4. **Final Deliverable**:
-   - Produce a formal "Legal Research Memo" summarizing the top 3 most authoritative and relevant precedents.
-   - For each case, include:
-     - Full Case Name and Citation.
-     - A brief summary of the holding.
-     - A specific explanation of how it grounds or supports the current facts.
-
-Constraints:
+### CONSTRAINTS:
 - Focus exclusively on Indian Law.
 - Maintain a professional, analytical tone.
-- Do not provide definitive legal advice; frame the output as a research memorandum.
 """
 
+
+legal_memo_agent_description = """
+Generates a legal research memorandum based on the provided precedents.
+"""
+
+legal_memo_agent_instruction = """
+### ROLE: Senior Legal Associate specializing in Indian Jurisprudence.
+
+### OBJECTIVE:
+Generate a legal research memorandum based on the provided precedents.
+
+### INPUT:
+Facts: {raw_facts}
+Parties: {parties}
+Issues: {legal_issues}
+Precedents: {precedents}
+
+### SYSTEM MANDATE:
+You MUST call 'update_precedent_state' to save the final memo and refined precedents.
+
+### EXECUTION STEPS:
+1. **Memo Drafting**: Produce a formal "Legal Research Memo" summarizing the top 3 precedents.
+2. **STATE UPDATE**: Execute 'update_precedent_state' with:
+   - legal_memo: [The full text of the Research Memo]
+"""
 
 def serpSearch(searchQuery: str) -> dict:
     url = "https://google.serper.dev/search"
@@ -175,34 +211,37 @@ def serpSearch(searchQuery: str) -> dict:
 
 case_breakdown_agent = Agent(
     name="Case_Breakdown_Agent",
-    # Description: Focus on the output this agent produces for the next agent.
     description=case_breakdown_agent_description,
-    # Instruction: Step-by-step logic on how to process the input.
     instruction=case_breakdown_agent_instruction,
+    tools=[update_precedent_state],
     model="gemini-2.5-flash", 
 )   
 
 precedent_searcher_agent = Agent(
     name="Precedent_Searcher",
-    # Description: Explicitly mention the jurisdiction (India) and the tool usage.
     description=precedent_searcher_agent_description,
-    # Instruction: Teach the agent how to use the 'serpSearch' tool effectively.
     instruction=precedent_searcher_agent_instruction,
-    tools=[serpSearch],
+    tools=[serpSearch, update_precedent_state],
     model="gemini-2.5-flash", 
 )
 
 precedent_verifier_agent = Agent(
     name="Precedent_Verifier",
-    # Description: Focus on quality control and citation formatting.
     description=precedent_verifier_agent_description,
-    # Instruction: The 'Judge' persona—critical and precise.
     instruction=precedent_verifier_agent_instruction,
-    tools=[serpSearch],
+    tools=[serpSearch, update_precedent_state],
     model="gemini-2.5-flash", 
 )
 
+legal_memo_agent = Agent(
+    name="Legal_Memo_Agent",
+    description=legal_memo_agent_description,
+    instruction=legal_memo_agent_instruction,
+    tools=[update_precedent_state],
+    model="gemini-2.5-flash", 
+)  
+
 root_agent = SequentialAgent(
     name = "precedent_searcher_agent",
-    sub_agents= [case_breakdown_agent, precedent_searcher_agent, precedent_verifier_agent],
+    sub_agents= [case_breakdown_agent, precedent_searcher_agent, precedent_verifier_agent, legal_memo_agent],
 )
