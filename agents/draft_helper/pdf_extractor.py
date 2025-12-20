@@ -129,30 +129,46 @@
 
 
 
-import os
-import pdfplumber
+# import os
+# import pdfplumber
 
-# Path to folder containing PDFs
-folder_path = r"C:\Users\Gayathri\Downloads\GAVEL\agents\draft_helper\contract_templates"
+# # Path to folder containing PDFs
+# folder_path = r"C:\Users\Gayathri\Downloads\GAVEL\agents\draft_helper\contract_templates"
 
-# Loop through all files in the folder
-for filename in os.listdir(folder_path):
-    if filename.lower().endswith(".pdf"):
-        pdf_path = os.path.join(folder_path, filename)
-        md_filename = filename.rsplit(".", 1)[0] + ".md"
-        md_path = os.path.join(folder_path, md_filename)
+# # Loop through all files in the folder
+# for filename in os.listdir(folder_path):
+#     if filename.lower().endswith(".pdf"):
+#         pdf_path = os.path.join(folder_path, filename)
+#         md_filename = filename.rsplit(".", 1)[0] + ".md"
+#         md_path = os.path.join(folder_path, md_filename)
 
-        # Extract text from PDF
-        with pdfplumber.open(pdf_path) as pdf:
-            all_text = ""
-            for page in pdf.pages:
-                all_text += page.extract_text() + "\n\n"
+#         # Extract text from PDF
+#         with pdfplumber.open(pdf_path) as pdf:
+#             all_text = ""
+#             for page in pdf.pages:
+#                 all_text += page.extract_text() + "\n\n"
 
-        # Save as Markdown file
-        with open(md_path, "w", encoding="utf-8") as f:
-            f.write(all_text)
+#         # Save as Markdown file
+#         with open(md_path, "w", encoding="utf-8") as f:
+#             f.write(all_text)
 
-        print(f"Converted: {filename} → {md_filename}")
+#         print(f"Converted: {filename} → {md_filename}")
 
-print("All PDFs converted to Markdown!")
+# print("All PDFs converted to Markdown!")
 
+
+# import os
+
+# base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# index_path = os.path.join(base_dir, "agents\draft_helper\kanoon_faiss_index.bin")
+# metadata_path = os.path.join(base_dir, "agents\draft_helper\kanoon_metadata.json")
+
+# print("Index exists:", os.path.exists(index_path))
+# print("Metadata exists:", os.path.exists(metadata_path))
+# print("Index path:", index_path)
+# print("Metadata path:", metadata_path)
+
+
+import pypandoc
+
+pypandoc.download_pandoc()
