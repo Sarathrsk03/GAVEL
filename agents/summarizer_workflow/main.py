@@ -1,5 +1,8 @@
-import asyncio
 import os
+import shutil
+import tempfile
+from fastapi import FastAPI, UploadFile, File, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 from google.adk.runners import Runner
 from google.adk.sessions import InMemorySessionService
@@ -7,108 +10,115 @@ from google.genai import types
 
 # Import your helper functions
 from utils import initialize_legal_state, extract_text_from_pdf
-from summarizer_agent.agent import root_agent # This should now be the LoopAgent
+from summarizer_agent.agent import root_agent
 
 load_dotenv()
 
-async def main_async():
-    # ===== PART 1: SETUP =====
-    APP_NAME = "GAVEL_SUMMARIZER"
-    USER_ID = "hackathon_user"
-    session_service = InMemorySessionService()
+app = FastAPI(title="GAVEL Summarizer API")
 
-    # ===== PART 2: MANUAL EXTRACTION =====
-    # Define your path here
-    PATH_TO_PDF = r"D:\\Agentathon\\GAVEL-1\\agents\\summarizer_workflow\\data\\test_pdf.pdf"
-    
-    print(f"⏳ Extracting text from: {PATH_TO_PDF}...")
-    pdf_text = extract_text_from_pdf(PATH_TO_PDF)
+# Add CORS middleware to allow requests from the frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-    if not pdf_text:
-        print("❌ Extraction failed or PDF is empty. Exiting.")
-        return
-    
-    print(f"✅ Extracted {len(pdf_text)} characters.")
+# Global session service
+session_service = InMemorySessionService()
 
-    # ===== PART 3: INITIALIZE STATE =====
-    # We pass the extracted text directly into the state
-    initial_state = initialize_legal_state(pdf_text)
-    # ===== PART 3: Session Creation =====
-    new_session = await session_service.create_session(
-        app_name=APP_NAME,
-        user_id=USER_ID,
-        state=initial_state,
-    )
-    SESSION_ID = new_session.id
-    print(f"⚖️ GAVEL-1: Session Created: {SESSION_ID}")
+@app.get("/")
+async def health_check():
+    return {"status": "alive", "service": "GAVEL Summarizer"}
 
-    # ===== PART 4: Runner Setup =====
-    runner = Runner(
-        agent=root_agent,
-        app_name=APP_NAME,
-        session_service=session_service,
-    )
+@app.post("/summarize")
+async def summarize_pdf(file: UploadFile = File(...)):
+    """
+    Upload a PDF file and get a legal summary.
+    This endpoint processes the document using ADK agents.
+    """
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF files are supported.")
 
-    # ===== PART 5: Execution =====
-    print("\n🚀 Starting Legal Analysis Workflow...")
-    
-    user_message = types.Content(
-        role="user",
-        parts=[types.Part(text="Extract legal data and verify the summary.")]
-    )
+    # Save uploaded file to a temporary location to pass to the extractor
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmp:
+        shutil.copyfileobj(file.file, tmp)
+        tmp_path = tmp.name
 
     try:
+        # ===== PART 1: EXTRACT TEXT =====
+        print(f"⏳ Processing upload: {file.filename}...")
+        pdf_text = extract_text_from_pdf(tmp_path)
+
+        if not pdf_text:
+            raise HTTPException(status_code=400, detail="PDF extraction failed or document is empty.")
+        
+        print(f"✅ Extracted {len(pdf_text)} characters.")
+
+        # ===== PART 2: SETUP ADK SESSION =====
+        APP_NAME = "GAVEL_SUMMARIZER"
+        USER_ID = "fastapi_default_user"
+        
+        initial_state = initialize_legal_state(pdf_text)
+        new_session = await session_service.create_session(
+            app_name=APP_NAME,
+            user_id=USER_ID,
+            state=initial_state,
+        )
+        SESSION_ID = new_session.id
+        print(f"⚖️ Session Created: {SESSION_ID}")
+
+        # ===== PART 3: RUN WORKFLOW =====
+        runner = Runner(
+            agent=root_agent,
+            app_name=APP_NAME,
+            session_service=session_service,
+        )
+
+        print("🚀 Starting Legal Analysis Workflow...")
+        
+        user_message = types.Content(
+            role="user",
+            parts=[types.Part(text="Extract legal data and verify the summary.")]
+        )
+
+        # Run the workflow to completion
         async for event in runner.run_async(
             user_id=USER_ID,
             session_id=SESSION_ID,
             new_message=user_message
         ):
-            # Print agent transitions to show progress
+            # (Optional) Log events or transitions
             if hasattr(event, 'agent_name'):
-                print(f"  [Active Agent]: {event.agent_name}")
+                print(f"  [Agent]: {event.agent_name}")
             
             if event.is_final_response():
-                print("\n✅ Workflow Chain Finished.")
-                
+                print("✅ Workflow Finished.")
+
+        # ===== PART 4: FETCH & RETURN RESULTS =====
+        final_session = await session_service.get_session(
+            app_name=APP_NAME, 
+            user_id=USER_ID, 
+            session_id=SESSION_ID
+        )
+
+        # Remove the raw text from response if it's too large, or keep it as per requirement
+        # Here we return the full status for the frontend
+        return {
+            "session_id": SESSION_ID,
+            "summary": final_session.state
+        }
+
     except Exception as e:
-        print(f"\n❌ Workflow Error (Likely Rate Limit): {e}")
-
-    # ===== PART 6: Final Results & Loop Count =====
-    final_session = await session_service.get_session(
-        app_name=APP_NAME, 
-        user_id=USER_ID, 
-        session_id=SESSION_ID
-    )
-
-    # # Calculate loop iterations by checking how many times the worker started
-    # # In ADK history, each turn is recorded.
-    # loop_count = len([t for t in final_session.history if t.role == "model"]) // 2
-    # if loop_count == 0: loop_count = 1 # Minimum of 1 pass
-
-    # print("\n" + "="*60)
-    # print(f"📊 FINAL LEGAL SUMMARY STATE (Total Loops: {loop_count})")
-    # print("="*60)
-    
-    # All 12 Legal Fields
-    all_fields = [
-        "case_name", "neutral_citation", "date_of_judgment", 
-        "court_name", "bench", "facts", "legal_issues", 
-        "statutes_cited", "precedents_cited", "ratio_decidendi", 
-        "final_order", "confidence_score"
-    ]
-    
-    for key in all_fields:
-        val = final_session.state.get(key)
-        # Format list displays for statutes/precedents
-        if isinstance(val, list):
-            val = ", ".join(val) if val else "NONE"
-        
-        status = "✅" if (val and val != "EMPTY" and val != 0.0) else "❌"
-        print(f"{status} {key.upper():<20}: {val}")
-        
-    print("="*60)
-    print(f"CRITIQUE FEEDBACK: {final_session.state.get('critique_feedback', 'No feedback provided.')}")
-    print("="*60)
+        print(f"❌ Error during summarize: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        # Cleanup
+        if os.path.exists(tmp_path):
+            os.remove(tmp_path)
 
 if __name__ == "__main__":
-    asyncio.run(main_async())
+    import uvicorn
+    # Use standard uvicorn entry point
+    uvicorn.run(app, host="0.0.0.0", port=8001)
