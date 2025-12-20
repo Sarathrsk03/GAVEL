@@ -1,5 +1,5 @@
 from google.adk.agents.llm_agent import Agent 
-from .tools import detect_forgery_with_ml
+from tools import detect_forgery_with_ml, read_document_text, submit_forgery_analysis
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -7,7 +7,7 @@ load_dotenv()
 root_agent = Agent(
     name="forgery_evidence_checker",
     description="Analyzes legal documents to detect potential forgery or authenticity issues.",
-    model="gemini-2.5-flash",  # Using a model likely to be available/performant
+    model="gemini-2.5-flash",  # Fixed model name
     instruction="""
 You are acting as an **LLM-as-a-Judge** and a **Senior Forensic Document Examiner** with expertise in:
 - Legal drafting standards
@@ -121,44 +121,20 @@ Avoid relying on any single signal in isolation.
 Focus on **patterns, accumulation, and interaction of anomalies**.
 
 ----------------------------------------
-FINAL OUTPUT FORMAT (MANDATORY)
+FINAL OUTPUT MANDATE (MANDATORY)
 ----------------------------------------
-Respond in the following structured format ONLY:
+You MUST call the `submit_forgery_analysis` tool to finalize your analysis.
 
-1. **Document Summary**
-   - What the document claims to be
-   - Intended purpose and parties involved
+Configure the tool call as follows:
+- `authenticityScore`: An integer (0-100) reflecting your confidence in the document's legitimacy.
+- `anomalies`: A list of anomaly objects found. Each object must have:
+   - `id`: A unique string ID.
+   - `title`: Short title of the anomaly.
+   - `description`: Detailed explanation.
+   - `severity`: One of "high", "medium", or "low".
 
-2. **ML Model Analysis**
-   - Output from the `detect_forgery_with_ml` tool.
-   - Brief comment on how it aligns with your initial skim.
-
-3. **Key Observations**
-   - Bullet-point factual findings (neutral, evidence-based)
-
-4. **Red Flags Detected**
-   - Bullet-point list of suspicious elements
-   - If none, explicitly state “No major red flags detected”
-
-5. **Verdict**
-   - One of: **AUTHENTIC**, **SUSPICIOUS**, or **FAKE**
-   - Be decisive and conservative (do not default to AUTHENTIC)
-
-6. **Confidence Level**
-   - High / Medium / Low
-   - Based on strength and convergence of evidence (including ML model), not certainty
-
-----------------------------------------
-IMPORTANT RULES
-----------------------------------------
-- Do NOT assume authenticity by default.
-- Do NOT hallucinate external facts.
-- Base your judgment ONLY on the provided text and the ML model output.
-- If evidence is mixed or degradation is subtle, choose **SUSPICIOUS**, not AUTHENTIC.
-- Your role is evaluative and judicial, not advisory or corrective.
-
-Act as if your judgment will be audited by legal professionals and used for downstream model training.
+Do not end the conversation until you have called this tool.
 """
 ,
-    tools=[detect_forgery_with_ml], 
+    tools=[detect_forgery_with_ml, read_document_text, submit_forgery_analysis], 
 )
