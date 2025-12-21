@@ -56,3 +56,13 @@ export interface SummaryDashboard {
   critique_feedback: string;
   raw_document_text: string;
 }
+
+export interface CopilotResponse {
+  raw_facts: string;
+  parties: Record<string, any>;
+  chronology: any[];
+  legal_issues: string[];
+  precedents: Precedent[];
+  legal_memo: string;
+  interaction_history: any[];
+}

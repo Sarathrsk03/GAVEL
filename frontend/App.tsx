@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { AppView, SummaryDashboard } from './types';
+import { AppView, SummaryDashboard, CopilotResponse, Anomaly } from './types';
 import LandingPage from './views/LandingPage';
 import Summarizer from './views/Summarizer';
 import Verifier from './views/Verifier';
@@ -9,15 +9,46 @@ import PrecedentCopilot from './views/PrecedentCopilot';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.LANDING);
-  const [summaryData, setSummaryData] = useState<SummaryDashboard | null>(null);
+
+  // State for Summarizer
+  const [summarizerState, setSummarizerState] = useState<{
+    summaryData: SummaryDashboard | null;
+    inputText: string;
+    file: File | null;
+  }>({ summaryData: null, inputText: '', file: null });
+
+  // State for Verifier
+  const [verifierState, setVerifierState] = useState<{
+    file: File | null;
+    results: { score: number; anomalies: Anomaly[] } | null;
+  }>({ file: null, results: null });
+
+  // State for DraftHelper
+  const [draftHelperState, setDraftHelperState] = useState<{
+    requirements: string;
+    docType: string;
+    jurisdiction: string;
+  }>({ requirements: '', docType: 'Service Agreement', jurisdiction: 'Chennai, India' });
+
+  // State for PrecedentCopilot
+  const [precedentCopilotState, setPrecedentCopilotState] = useState<{
+    inquiry: string;
+    analysis: CopilotResponse | null;
+  }>({ inquiry: '', analysis: null });
 
   const renderView = () => {
     switch (currentView) {
       case AppView.LANDING: return <LandingPage onNavigate={(view: AppView) => setCurrentView(view)} />;
-      case AppView.SUMMARIZER: return <Summarizer summaryData={summaryData} setSummaryData={setSummaryData} />;
-      case AppView.VERIFIER: return <Verifier />;
-      case AppView.DRAFT_HELPER: return <DraftHelper summaryData={summaryData} />;
-      case AppView.PRECEDENT_COPILOT: return <PrecedentCopilot />;
+      case AppView.SUMMARIZER: return <Summarizer {...summarizerState} setState={setSummarizerState} />;
+      case AppView.VERIFIER: return <Verifier {...verifierState} setState={setVerifierState} />;
+      case AppView.DRAFT_HELPER: return (
+        <DraftHelper
+          {...draftHelperState}
+          summaryData={summarizerState.summaryData}
+          setState={setDraftHelperState}
+        />
+      );
+      case AppView.PRECEDENT_COPILOT: return <PrecedentCopilot {...precedentCopilotState} setState={setPrecedentCopilotState} />;
       default: return <LandingPage onStart={() => setCurrentView(AppView.SUMMARIZER)} />;
     }
   };
