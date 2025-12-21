@@ -1,0 +1,26 @@
+_pycache_
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.env
+.DS_Store
+.git
+.gitignore
+node_modules/
+dist/
+coverage/
+.vscode/
+.idea/
+
+# Large datasets (available via volumes in docker-compose)
+agents/draft_helper/kanoon-dataset/
+agents/draft_helper/kanoon_faiss_index.bin
+agents/draft_helper/kanoon_metadata.json
+agents/draft_helper/pandoc-*.msi
+agents/*/dataset/
+agents/*/.adk/
+**/_pycache_/
+*.whl

@@ -5,7 +5,7 @@ annotated-doc==0.0.4
 annotated-types==0.7.0
 anyio==4.12.0
 attrs==25.4.0
-audioop-lts==0.2.2
+#audioop-lts==0.2.2
 Authlib==1.6.6
 brotli==1.2.0
 cachetools==6.2.4
@@ -52,8 +52,8 @@ graphviz==0.21
 groovy==0.1.2
 grpc-google-iam-v1==0.14.3
 grpc-interceptor==0.15.4
-grpcio==1.76.0
-grpcio-status==1.76.0
+grpcio<1.64.0
+grpcio-status<1.64.0
 h11==0.16.0
 hf-xet==1.2.0
 httpcore==1.0.9
@@ -88,7 +88,7 @@ packaging==25.0
 pandas==2.3.3
 pillow==12.0.0
 proto-plus==1.27.0
-protobuf==6.33.2
+protobuf<5.30.0
 pyarrow==22.0.0
 pyasn1==0.6.1
 pyasn1_modules==0.4.2
@@ -137,17 +137,13 @@ watchdog==6.0.0
 websockets==15.0.1
 zipp==3.23.0
 
-kaggle
-pdfplumber spacy
+
+pdfplumber 
+spacy
 fuzzywuzzy
-#python -m spacy download en_core_web_sm
-pdfplumber
 faiss-cpu
-sentence_transformers
 pypandoc
 pypdf
-transformers
-torch
 scikit-learn
 accelerate
-google-generativeai
+google-generativeai==0.8.6

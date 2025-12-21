@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  summarizer:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: gavel-backend
+    env_file: .env
+    ports:
+      - "8010:8010"
+    volumes:
+      - ./agents:/app/agents
+      - ./.env:/app/.env
+    working_dir: /app/agents/summarizer_workflow
+    command: uvicorn main:app --host 0.0.0.0 --port 8010 --reload
+
+  forgery-checker:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: gavel-backend
+    env_file: .env
+    ports:
+      - "8011:8011"
+    volumes:
+      - ./agents:/app/agents
+      - ./.env:/app/.env
+    working_dir: /app/agents/forgery_evidence_checker
+    command: uvicorn main:app --host 0.0.0.0 --port 8011 --reload
+
+  precedent-searcher:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: gavel-backend
+    env_file: .env
+    ports:
+      - "8012:8012"
+    volumes:
+      - ./agents:/app/agents
+      - ./.env:/app/.env
+    working_dir: /app/agents/precedent_searcher
+    command: uvicorn main:app --host 0.0.0.0 --port 8012 --reload
+
+  draft-helper:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: gavel-backend
+    env_file: .env
+    ports:
+      - "8013:8013"
+    volumes:
+      - ./agents:/app/agents
+      - ./.env:/app/.env
+    working_dir: /app/agents/draft_helper
+    command: uvicorn main:app --host 0.0.0.0 --port 8013 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    depends_on:
+      - summarizer
+      - forgery-checker
+      - precedent-searcher
+      - draft-helper
