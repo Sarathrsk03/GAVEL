@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ENDPOINTS } from '../config';
+import { SummaryDashboard } from '../types';
 
 
 type WorkflowStage = 'REQUIREMENTS' | 'DRAFTING' | 'REVISION';
@@ -12,13 +13,35 @@ interface RevisionSuggestion {
   reasoning: string;
 }
 
-const DraftHelper: React.FC = () => {
+interface DraftHelperProps {
+  summaryData: SummaryDashboard | null;
+}
+
+const DraftHelper: React.FC<DraftHelperProps> = ({ summaryData }) => {
   const [stage, setStage] = useState<WorkflowStage>('REQUIREMENTS');
   const [requirements, setRequirements] = useState('');
   const [docType, setDocType] = useState('Service Agreement');
   const [jurisdiction, setJurisdiction] = useState('Chennai, India');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (summaryData) {
+      const {
+        case_name, facts, legal_issues, ratio_decidendi, final_order
+      } = summaryData;
+
+      const summaryText = `
+        Case Name: ${case_name}
+        Facts: ${facts.join(', ')}
+        Legal Issues: ${legal_issues.join(', ')}
+        Ratio Decidendi: ${ratio_decidendi}
+        Final Order: ${final_order}
+      `.trim();
+
+      setRequirements(summaryText);
+    }
+  }, [summaryData]);
   const [statusMsg, setStatusMsg] = useState('');
   const [revisions, setRevisions] = useState<RevisionSuggestion[]>([]);
   const [generatedFile, setGeneratedFile] = useState<{ url: string; name: string } | null>(null);

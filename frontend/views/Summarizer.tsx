@@ -1,31 +1,17 @@
 
 import React, { useState, useRef } from 'react';
 import { ENDPOINTS } from '../config';
+import { SummaryDashboard } from '../types';
 
-
-// The schema provided by the user for the backend response
-interface SummaryDashboard {
-  case_name: string;
-  neutral_citation: string;
-  date_of_judgment: string;
-  court_name: string;
-  bench: string[];
-  facts: string[];
-  legal_issues: string[];
-  statutes_cited: string[];
-  precedents_cited: string[];
-  ratio_decidendi: string;
-  final_order: string;
-  confidence_score: number;
-  critique_feedback: string;
-  raw_document_text: string;
+interface SummarizerProps {
+  summaryData: SummaryDashboard | null;
+  setSummaryData: (data: SummaryDashboard | null) => void;
 }
 
-const Summarizer: React.FC = () => {
+const Summarizer: React.FC<SummarizerProps> = ({ summaryData, setSummaryData }) => {
   const [inputText, setInputText] = useState('');
   const [file, setFile] = useState<File | null>(null);
   const [base64Data, setBase64Data] = useState<string | null>(null);
-  const [summaryData, setSummaryData] = useState<SummaryDashboard | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);

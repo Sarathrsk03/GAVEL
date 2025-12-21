@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { AppView } from './types';
+import { AppView, SummaryDashboard } from './types';
 import LandingPage from './views/LandingPage';
 import Summarizer from './views/Summarizer';
 import Verifier from './views/Verifier';
@@ -9,15 +9,16 @@ import PrecedentCopilot from './views/PrecedentCopilot';
 
 const App: React.FC = () => {
   const [currentView, setCurrentView] = useState<AppView>(AppView.LANDING);
+  const [summaryData, setSummaryData] = useState<SummaryDashboard | null>(null);
 
   const renderView = () => {
     switch (currentView) {
       case AppView.LANDING: return <LandingPage onNavigate={(view: AppView) => setCurrentView(view)} />;
-      case AppView.SUMMARIZER: return <Summarizer />;
+      case AppView.SUMMARIZER: return <Summarizer summaryData={summaryData} setSummaryData={setSummaryData} />;
       case AppView.VERIFIER: return <Verifier />;
-      case AppView.DRAFT_HELPER: return <DraftHelper />;
+      case AppView.DRAFT_HELPER: return <DraftHelper summaryData={summaryData} />;
       case AppView.PRECEDENT_COPILOT: return <PrecedentCopilot />;
-      default: return <LandingPage onNavigate={(view: AppView) => setCurrentView(view)} />;
+      default: return <LandingPage onStart={() => setCurrentView(AppView.SUMMARIZER)} />;
     }
   };
 
