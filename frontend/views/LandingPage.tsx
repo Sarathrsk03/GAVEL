@@ -17,7 +17,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
           <span className="text-xl font-black tracking-tighter">GAVEL</span>
         </div>
         <div className="flex items-center">
-          <button 
+          <button
             onClick={onStart}
             className="text-sm font-bold text-primary hover:text-primary-hover transition-colors"
           >
@@ -30,20 +30,25 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       <section className="pt-44 pb-24 px-8 md:px-16 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8 animate-in fade-in slide-in-from-left duration-700">
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-1.5 rounded-full border border-primary/20">
-              <span className="material-symbols-outlined text-sm font-bold">verified</span>
-              <span className="text-[10px] font-black uppercase tracking-widest">Enterprise Legal AI</span>
+            <div className="inline-flex items-center gap-3 bg-white dark:bg-surface-dark border border-primary/20 rounded-full px-5 py-2 shadow-lg shadow-primary/5 backdrop-blur-xl transition-transform hover:scale-105 cursor-default">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+              </span>
+              <span className="text-xs md:text-sm font-bold tracking-wide bg-gradient-to-r from-primary to-purple-600 bg-clip-text text-transparent">
+                Generative AI for Virtual Evaluation & Legal Assistance
+              </span>
             </div>
             <h1 className="text-6xl md:text-7xl font-black leading-[1.05] tracking-tight">
-              The Intelligent <br/>
-              <span className="text-primary italic">Backbone</span> of <br/>
+              The Intelligent <br />
+              <span className="text-primary italic">Backbone</span> of <br />
               Modern Law.
             </h1>
             <p className="text-xl text-slate-500 dark:text-text-secondary max-w-xl leading-relaxed">
-              GAVEL (Generative AI for Virtual Evaluation and Legal Assistance) empowers legal teams with multimodal analysis, forensic verification, and multi-agent drafting workflows.
+              GAVEL empowers legal teams with multimodal analysis, forensic verification, and multi-agent drafting workflows.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <button 
+              <button
                 onClick={onStart}
                 className="bg-primary hover:bg-primary-hover text-white px-10 py-5 rounded-2xl font-black text-lg flex items-center gap-3 shadow-2xl shadow-primary/30 transition-all hover:-translate-y-1 active:scale-95"
               >
@@ -74,7 +79,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
                 </div>
               </div>
               <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                 <div className="size-24 bg-primary rounded-full blur-2xl opacity-40 animate-pulse"></div>
+                <div className="size-24 bg-primary rounded-full blur-2xl opacity-40 animate-pulse"></div>
               </div>
             </div>
           </div>
@@ -143,11 +148,14 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       </section>
 
       <footer className="py-12 border-t border-slate-100 dark:border-border-dark px-8 md:px-16 flex flex-col md:flex-row justify-between items-center gap-8">
-        <div className="flex items-center gap-3">
-          <div className="size-8 bg-slate-900 dark:bg-white rounded-lg flex items-center justify-center text-white dark:text-black">
-            <span className="material-symbols-outlined font-bold text-lg">gavel</span>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-3">
+            <div className="size-8 bg-slate-900 dark:bg-white rounded-lg flex items-center justify-center text-white dark:text-black">
+              <span className="material-symbols-outlined font-bold text-lg">gavel</span>
+            </div>
+            <span className="text-lg font-black tracking-tighter">GAVEL</span>
           </div>
-          <span className="text-lg font-black tracking-tighter">GAVEL</span>
+          <p className="text-[10px] text-slate-400 font-medium tracking-wide">Generative AI for Virtual Evaluation and Legal Assistance</p>
         </div>
         <p className="text-slate-400 text-sm">© 2025 GAVEL Enterprise Legal Suite. All rights reserved.</p>
         <div className="flex gap-6">
