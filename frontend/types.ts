@@ -39,3 +39,30 @@ export interface Precedent {
   date: string;
   court: string;
 }
+
+export interface SummaryDashboard {
+  case_name: string;
+  neutral_citation: string;
+  date_of_judgment: string;
+  court_name: string;
+  bench: string[];
+  facts: string[];
+  legal_issues: string[];
+  statutes_cited: string[];
+  precedents_cited: string[];
+  ratio_decidendi: string;
+  final_order: string;
+  confidence_score: number;
+  critique_feedback: string;
+  raw_document_text: string;
+}
+
+export interface CopilotResponse {
+  raw_facts: string;
+  parties: Record<string, any>;
+  chronology: any[];
+  legal_issues: string[];
+  precedents: Precedent[];
+  legal_memo: string;
+  interaction_history: any[];
+}

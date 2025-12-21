@@ -3,12 +3,15 @@ import React, { useState, useRef } from 'react';
 import { Anomaly } from '../types';
 import { ENDPOINTS } from '../config';
 
+interface VerifierProps {
+  file: File | null;
+  results: { score: number; anomalies: Anomaly[] } | null;
+  setState: (state: { file: File | null; results: { score: number; anomalies: Anomaly[] } | null }) => void;
+}
 
-const Verifier: React.FC = () => {
-  const [file, setFile] = useState<File | null>(null);
+const Verifier: React.FC<VerifierProps> = ({ file, results, setState }) => {
   const [base64Data, setBase64Data] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [results, setResults] = useState<{ score: number; anomalies: Anomaly[] } | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,16 +22,14 @@ const Verifier: React.FC = () => {
   };
 
   const processFile = (selectedFile: File) => {
-    setFile(selectedFile);
+    setState({ file: selectedFile, results: null });
     const reader = new FileReader();
     reader.onload = (event) => {
       const result = event.target?.result as string;
-      // Extract the base64 part from the data URL
       const base64 = result.split(',')[1];
       setBase64Data(base64);
     };
     reader.readAsDataURL(selectedFile);
-    setResults(null);
   };
 
   const handleVerify = async () => {
@@ -53,9 +54,12 @@ const Verifier: React.FC = () => {
       }
 
       const data = await response.json();
-      setResults({
-        score: data.authenticityScore ?? 0,
-        anomalies: data.anomalies ?? []
+      setState({
+        file,
+        results: {
+          score: data.authenticityScore ?? 0,
+          anomalies: data.anomalies ?? []
+        }
       });
 
     } catch (err) {

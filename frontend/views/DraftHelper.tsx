@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ENDPOINTS } from '../config';
+import { SummaryDashboard } from '../types';
 
 
 type WorkflowStage = 'REQUIREMENTS' | 'DRAFTING' | 'REVISION';
@@ -12,13 +13,36 @@ interface RevisionSuggestion {
   reasoning: string;
 }
 
-const DraftHelper: React.FC = () => {
+interface DraftHelperProps {
+  summaryData: SummaryDashboard | null;
+  requirements: string;
+  docType: string;
+  jurisdiction: string;
+  setState: (state: { requirements: string; docType: string; jurisdiction: string; }) => void;
+}
+
+const DraftHelper: React.FC<DraftHelperProps> = ({ summaryData, requirements, docType, jurisdiction, setState }) => {
   const [stage, setStage] = useState<WorkflowStage>('REQUIREMENTS');
-  const [requirements, setRequirements] = useState('');
-  const [docType, setDocType] = useState('Service Agreement');
-  const [jurisdiction, setJurisdiction] = useState('Chennai, India');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (summaryData) {
+      const {
+        case_name, facts, legal_issues, ratio_decidendi, final_order
+      } = summaryData;
+
+      const summaryText = `
+        Case Name: ${case_name}
+        Facts: ${facts.join(', ')}
+        Legal Issues: ${legal_issues.join(', ')}
+        Ratio Decidendi: ${ratio_decidendi}
+        Final Order: ${final_order}
+      `.trim();
+
+      setState({ requirements: summaryText, docType, jurisdiction });
+    }
+  }, [summaryData]);
   const [statusMsg, setStatusMsg] = useState('');
   const [revisions, setRevisions] = useState<RevisionSuggestion[]>([]);
   const [generatedFile, setGeneratedFile] = useState<{ url: string; name: string } | null>(null);
@@ -96,7 +120,7 @@ const DraftHelper: React.FC = () => {
               <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1.5">Document Form</label>
               <select
                 value={docType}
-                onChange={(e) => setDocType(e.target.value)}
+                onChange={(e) => setState({ requirements, docType: e.target.value, jurisdiction })}
                 className="w-full bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg text-xs font-bold p-2 focus:ring-primary"
               >
                 <option>Service Agreement</option>
@@ -109,7 +133,7 @@ const DraftHelper: React.FC = () => {
               <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1.5">Jurisdiction</label>
               <input
                 value={jurisdiction}
-                onChange={(e) => setJurisdiction(e.target.value)}
+                onChange={(e) => setState({ requirements, docType, jurisdiction: e.target.value })}
                 className="w-full bg-slate-50 dark:bg-background-dark border-slate-200 dark:border-border-dark rounded-lg text-xs font-bold p-2 focus:ring-primary"
               />
             </div>
@@ -165,7 +189,7 @@ const DraftHelper: React.FC = () => {
               <label className="text-[10px] font-black uppercase text-primary tracking-widest mb-4">Core Requirements & Facts</label>
               <textarea
                 value={requirements}
-                onChange={(e) => setRequirements(e.target.value)}
+                onChange={(e) => setState({ requirements: e.target.value, docType, jurisdiction })}
                 placeholder="E.g. Party A (Alpha Corp) hires Party B (Freelance Dev) for $50k backend work. Deliverables due in 3 months. Alpha Corp owns all IP. Dev gets 20% upfront."
                 className="flex-1 bg-transparent border-none focus:ring-0 text-lg leading-relaxed resize-none p-0 outline-none"
               />

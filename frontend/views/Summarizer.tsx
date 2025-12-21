@@ -1,31 +1,17 @@
 
 import React, { useState, useRef } from 'react';
 import { ENDPOINTS } from '../config';
+import { SummaryDashboard } from '../types';
 
-
-// The schema provided by the user for the backend response
-interface SummaryDashboard {
-  case_name: string;
-  neutral_citation: string;
-  date_of_judgment: string;
-  court_name: string;
-  bench: string[];
-  facts: string[];
-  legal_issues: string[];
-  statutes_cited: string[];
-  precedents_cited: string[];
-  ratio_decidendi: string;
-  final_order: string;
-  confidence_score: number;
-  critique_feedback: string;
-  raw_document_text: string;
+interface SummarizerProps {
+  summaryData: SummaryDashboard | null;
+  inputText: string;
+  file: File | null;
+  setState: (state: { summaryData: SummaryDashboard | null; inputText: string; file: File | null }) => void;
 }
 
-const Summarizer: React.FC = () => {
-  const [inputText, setInputText] = useState('');
-  const [file, setFile] = useState<File | null>(null);
+const Summarizer: React.FC<SummarizerProps> = ({ summaryData, inputText, file, setState }) => {
   const [base64Data, setBase64Data] = useState<string | null>(null);
-  const [summaryData, setSummaryData] = useState<SummaryDashboard | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -38,13 +24,12 @@ const Summarizer: React.FC = () => {
   };
 
   const processFile = (selectedFile: File) => {
-    setFile(selectedFile);
+    setState({ summaryData, file: selectedFile, inputText: '' });
     const reader = new FileReader();
     reader.onload = (event) => {
       const result = event.target?.result as string;
       const base64 = result.split(',')[1];
       setBase64Data(base64);
-      setInputText('');
     };
     reader.readAsDataURL(selectedFile);
   };
@@ -89,7 +74,7 @@ const Summarizer: React.FC = () => {
       console.log('Backend Response Data:', data);
       // Backend returns { session_id, summary }
       if (data && data.summary) {
-        setSummaryData(data.summary);
+        setState({ summaryData: data.summary, inputText, file });
       } else {
         throw new Error('API response missing summary data');
       }
@@ -124,10 +109,8 @@ const Summarizer: React.FC = () => {
   };
 
   const reset = () => {
-    setFile(null);
+    setState({ summaryData: null, inputText: '', file: null });
     setBase64Data(null);
-    setInputText('');
-    setSummaryData(null);
     setError(null);
   };
 
@@ -157,7 +140,7 @@ const Summarizer: React.FC = () => {
 
         <textarea
           value={inputText}
-          onChange={(e) => setInputText(e.target.value)}
+          onChange={(e) => setState({ summaryData, file, inputText: e.target.value })}
           placeholder="Or paste judgment text here..."
           className="w-full h-64 bg-slate-50 dark:bg-background-dark border border-slate-200 dark:border-border-dark rounded-xl p-4 text-sm focus:ring-primary mb-6 resize-none shadow-inner outline-none"
         />

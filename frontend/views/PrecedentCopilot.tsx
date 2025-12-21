@@ -1,29 +1,22 @@
 
 import React, { useState } from 'react';
-import { Precedent } from '../types';
+import { Precedent, CopilotResponse } from '../types';
 import { ENDPOINTS } from '../config';
 
-
-interface CopilotResponse {
-  raw_facts: string;
-  parties: Record<string, any>;
-  chronology: any[];
-  legal_issues: string[];
-  precedents: Precedent[];
-  legal_memo: string;
-  interaction_history: any[];
+interface PrecedentCopilotProps {
+  inquiry: string;
+  analysis: CopilotResponse | null;
+  setState: (state: { inquiry: string; analysis: CopilotResponse | null }) => void;
 }
 
-const PrecedentCopilot: React.FC = () => {
-  const [inquiry, setInquiry] = useState('');
+const PrecedentCopilot: React.FC<PrecedentCopilotProps> = ({ inquiry, analysis, setState }) => {
   const [loading, setLoading] = useState(false);
-  const [analysis, setAnalysis] = useState<CopilotResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleAnalyze = async () => {
     if (!inquiry.trim()) return;
     setLoading(true);
-    setAnalysis(null);
+    setState({ inquiry, analysis: null });
     setError(null);
 
     try {
@@ -41,7 +34,7 @@ const PrecedentCopilot: React.FC = () => {
       }
 
       const data: CopilotResponse = await response.json();
-      setAnalysis(data);
+      setState({ inquiry, analysis: data });
     } catch (err: any) {
       console.error(err);
       setError('Connection to analysis engine failed. Please try again.');
@@ -69,7 +62,7 @@ const PrecedentCopilot: React.FC = () => {
           <div className="bg-white dark:bg-card-dark rounded-2xl border border-slate-200 dark:border-border-dark p-6 shadow-sm">
             <textarea
               value={inquiry}
-              onChange={(e) => setInquiry(e.target.value)}
+              onChange={(e) => setState({ inquiry: e.target.value, analysis })}
               className="w-full h-32 bg-slate-50 dark:bg-background-dark/50 border-slate-200 dark:border-border-dark rounded-xl p-4 text-sm focus:ring-primary mb-4 resize-none shadow-inner outline-none"
               placeholder="Describe the legal issue, scenario, or set of facts in detail..."
             />
