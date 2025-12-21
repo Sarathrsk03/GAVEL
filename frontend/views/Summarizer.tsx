@@ -136,7 +136,6 @@ const Summarizer: React.FC = () => {
       {/* Input Panel (Left Side) */}
       <div className="w-full lg:w-[400px] border-r border-slate-200 dark:border-border-dark flex flex-col p-6 overflow-y-auto shrink-0 bg-white dark:bg-surface-dark/50">
         <h2 className="text-xl font-black mb-1">Legal Summarizer</h2>
-        <p className="text-xs text-slate-500 mb-6 uppercase tracking-widest font-bold">Backend Processing Enabled</p>
 
         <div
           onClick={() => fileInputRef.current?.click()}

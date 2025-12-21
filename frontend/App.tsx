@@ -12,12 +12,12 @@ const App: React.FC = () => {
 
   const renderView = () => {
     switch (currentView) {
-      case AppView.LANDING: return <LandingPage onStart={() => setCurrentView(AppView.SUMMARIZER)} />;
+      case AppView.LANDING: return <LandingPage onNavigate={(view: AppView) => setCurrentView(view)} />;
       case AppView.SUMMARIZER: return <Summarizer />;
       case AppView.VERIFIER: return <Verifier />;
       case AppView.DRAFT_HELPER: return <DraftHelper />;
       case AppView.PRECEDENT_COPILOT: return <PrecedentCopilot />;
-      default: return <LandingPage onStart={() => setCurrentView(AppView.SUMMARIZER)} />;
+      default: return <LandingPage onNavigate={(view: AppView) => setCurrentView(view)} />;
     }
   };
 

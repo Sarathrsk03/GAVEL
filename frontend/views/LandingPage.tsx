@@ -1,11 +1,12 @@
 
 import React from 'react';
+import { AppView } from '../types';
 
 interface LandingPageProps {
-  onStart: () => void;
+  onNavigate: (view: AppView) => void;
 }
 
-const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
+const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
   return (
     <div className="h-full overflow-y-auto bg-white dark:bg-background-dark custom-scrollbar">
       {/* Navigation Bar */}
@@ -18,7 +19,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
         </div>
         <div className="flex items-center">
           <button
-            onClick={onStart}
+            onClick={() => onNavigate(AppView.SUMMARIZER)}
             className="text-sm font-bold text-primary hover:text-primary-hover transition-colors"
           >
             Enter Dashboard
@@ -49,7 +50,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
               <button
-                onClick={onStart}
+                onClick={() => onNavigate(AppView.SUMMARIZER)}
                 className="bg-primary hover:bg-primary-hover text-white px-10 py-5 rounded-2xl font-black text-lg flex items-center gap-3 shadow-2xl shadow-primary/30 transition-all hover:-translate-y-1 active:scale-95"
               >
                 Access the Suite
@@ -61,19 +62,27 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
             <div className="absolute -inset-4 bg-gradient-to-tr from-primary/20 to-transparent blur-3xl opacity-50"></div>
             <div className="relative bg-slate-900 dark:bg-surface-dark border border-slate-800 rounded-[2.5rem] shadow-2xl overflow-hidden aspect-square flex items-center justify-center p-8">
               <div className="grid grid-cols-2 gap-4 w-full h-full opacity-40 group hover:opacity-100 transition-opacity duration-500">
-                <div className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700">
+                <div
+                  onClick={() => onNavigate(AppView.SUMMARIZER)}
+                  className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700 cursor-pointer">
                   <span className="material-symbols-outlined text-primary text-4xl">description</span>
                   <p className="text-xs font-bold text-slate-400">Summarization Engine</p>
                 </div>
-                <div className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700">
+                <div
+                  onClick={() => onNavigate(AppView.VERIFIER)}
+                  className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700 cursor-pointer">
                   <span className="material-symbols-outlined text-green-500 text-4xl">verified_user</span>
                   <p className="text-xs font-bold text-slate-400">Forensic Verifier</p>
                 </div>
-                <div className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700">
+                <div
+                  onClick={() => onNavigate(AppView.DRAFT_HELPER)}
+                  className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700 cursor-pointer">
                   <span className="material-symbols-outlined text-amber-500 text-4xl">edit_document</span>
                   <p className="text-xs font-bold text-slate-400">Agentic Drafting</p>
                 </div>
-                <div className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700">
+                <div
+                  onClick={() => onNavigate(AppView.PRECEDENT_COPILOT)}
+                  className="bg-slate-800 rounded-3xl p-6 flex flex-col justify-between transform hover:scale-105 transition-transform border border-slate-700 cursor-pointer">
                   <span className="material-symbols-outlined text-purple-500 text-4xl">search</span>
                   <p className="text-xs font-bold text-slate-400">Precedent Copilot</p>
                 </div>
@@ -96,7 +105,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group">
+            <div
+              onClick={() => onNavigate(AppView.SUMMARIZER)}
+              className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group cursor-pointer">
               <div className="size-14 bg-blue-500/10 rounded-2xl flex items-center justify-center text-blue-500 mb-8 group-hover:bg-blue-500 group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined text-3xl">description</span>
               </div>
@@ -108,7 +119,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
               </ul>
             </div>
 
-            <div className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group">
+            <div
+              onClick={() => onNavigate(AppView.VERIFIER)}
+              className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group cursor-pointer">
               <div className="size-14 bg-green-500/10 rounded-2xl flex items-center justify-center text-green-500 mb-8 group-hover:bg-green-500 group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined text-3xl">verified_user</span>
               </div>
@@ -120,7 +133,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
               </ul>
             </div>
 
-            <div className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group">
+            <div
+              onClick={() => onNavigate(AppView.DRAFT_HELPER)}
+              className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group cursor-pointer">
               <div className="size-14 bg-amber-500/10 rounded-2xl flex items-center justify-center text-amber-500 mb-8 group-hover:bg-amber-500 group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined text-3xl">edit_document</span>
               </div>
@@ -132,7 +147,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
               </ul>
             </div>
 
-            <div className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group">
+            <div
+              onClick={() => onNavigate(AppView.PRECEDENT_COPILOT)}
+              className="bg-white dark:bg-surface-dark p-10 rounded-[2rem] border border-slate-200 dark:border-border-dark shadow-sm hover:shadow-xl transition-all hover:-translate-y-2 group cursor-pointer">
               <div className="size-14 bg-purple-500/10 rounded-2xl flex items-center justify-center text-purple-500 mb-8 group-hover:bg-purple-500 group-hover:text-white transition-colors">
                 <span className="material-symbols-outlined text-3xl">search</span>
               </div>
