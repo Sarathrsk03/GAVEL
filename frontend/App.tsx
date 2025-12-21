@@ -49,7 +49,7 @@ const App: React.FC = () => {
         />
       );
       case AppView.PRECEDENT_COPILOT: return <PrecedentCopilot {...precedentCopilotState} setState={setPrecedentCopilotState} />;
-      default: return <LandingPage onStart={() => setCurrentView(AppView.SUMMARIZER)} />;
+      default: return <LandingPage onNavigate={(view: AppView) => setCurrentView(view)} />;
     }
   };
 
@@ -82,11 +82,10 @@ const App: React.FC = () => {
               <button
                 key={item.id}
                 onClick={() => setCurrentView(item.id)}
-                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-sm font-medium ${
-                  currentView === item.id
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors text-sm font-medium ${currentView === item.id
                     ? 'bg-primary text-white'
                     : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 dark:text-slate-400'
-                }`}
+                  }`}
               >
                 <span className="material-symbols-outlined text-xl">{item.icon}</span>
                 <span className="hidden lg:inline">{item.label}</span>
@@ -100,11 +99,11 @@ const App: React.FC = () => {
               <span className="hidden lg:inline text-sm">Settings</span>
             </button>
             <div className="flex items-center gap-3">
-               <div className="size-9 rounded-full bg-cover bg-center border border-slate-200 dark:border-border-dark" style={{backgroundImage: `url('https://picsum.photos/seed/legal/200')`}}></div>
-               <div className="hidden lg:block overflow-hidden">
-                 <p className="text-xs font-bold truncate">Sarah Jenkins</p>
-                 <p className="text-[10px] text-slate-500">Senior Associate</p>
-               </div>
+              <div className="size-9 rounded-full bg-cover bg-center border border-slate-200 dark:border-border-dark" style={{ backgroundImage: `url('https://picsum.photos/seed/legal/200')` }}></div>
+              <div className="hidden lg:block overflow-hidden">
+                <p className="text-xs font-bold truncate">Sarah Jenkins</p>
+                <p className="text-[10px] text-slate-500">Senior Associate</p>
+              </div>
             </div>
           </div>
         </aside>
