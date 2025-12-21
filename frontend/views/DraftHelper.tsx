@@ -25,9 +25,14 @@ const DraftHelper: React.FC<DraftHelperProps> = ({ summaryData, requirements, do
   const [stage, setStage] = useState<WorkflowStage>('REQUIREMENTS');
   const [content, setContent] = useState('');
   const [loading, setLoading] = useState(false);
+  const summaryLoadedRef = React.useRef(false);
 
   useEffect(() => {
-    if (summaryData) {
+    // Only populate from summaryData if:
+    // 1. summaryData exists
+    // 2. We haven't already loaded it (to prevent overwriting user edits)
+    // 3. Requirements are currently empty (user hasn't typed anything)
+    if (summaryData && !summaryLoadedRef.current && !requirements) {
       const {
         case_name, facts, legal_issues, ratio_decidendi, final_order
       } = summaryData;
@@ -41,8 +46,9 @@ const DraftHelper: React.FC<DraftHelperProps> = ({ summaryData, requirements, do
       `.trim();
 
       setState({ requirements: summaryText, docType, jurisdiction });
+      summaryLoadedRef.current = true;
     }
-  }, [summaryData]);
+  }, [summaryData, requirements, docType, jurisdiction, setState]);
   const [statusMsg, setStatusMsg] = useState('');
   const [revisions, setRevisions] = useState<RevisionSuggestion[]>([]);
   const [generatedFile, setGeneratedFile] = useState<{ url: string; name: string } | null>(null);
