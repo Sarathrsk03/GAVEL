@@ -47,5 +47,5 @@ COPY . /app
 
 EXPOSE 8000
 
-# Run with uvicorn
-CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# Default to running the gateway if no command is specified in docker-compose
+CMD ["uvicorn", "backend.main:app", "--host", "0.0.0.0", "--port", "8000"]

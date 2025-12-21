@@ -1,6 +1,21 @@
 version: '3.8'
 
 services:
+  gateway:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: gavel-backend
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      - summarizer
+      - forgery-checker
+      - precedent-searcher
+      - draft-helper
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
+
   summarizer:
     build:
       context: .
