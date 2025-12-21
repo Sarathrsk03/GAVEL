@@ -112,10 +112,10 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 <span className="material-symbols-outlined text-3xl">description</span>
               </div>
               <h4 className="text-xl font-bold mb-4">Intelligent Summarizer</h4>
-              <p className="text-sm text-slate-500 leading-relaxed mb-6">Convert 100-page contracts into structured executive summaries. Automated risk identification and obligation mapping.</p>
+              <p className="text-sm text-slate-500 leading-relaxed mb-6">Convert long judgment files into structured executive summaries to extract actionable legal insights, streamline case review, and ensure critical precedents are never overlooked. </p>
               <ul className="text-[11px] font-bold text-slate-400 space-y-2 uppercase tracking-wide">
-                <li className="flex items-center gap-2"><span className="size-1 bg-blue-500 rounded-full"></span> Multi-modal PDF Scan</li>
-                <li className="flex items-center gap-2"><span className="size-1 bg-blue-500 rounded-full"></span> Risk Flagging</li>
+                <li className="flex items-center gap-2"><span className="size-1 bg-blue-500 rounded-full"></span> Distill Complexity</li>
+                <li className="flex items-center gap-2"><span className="size-1 bg-blue-500 rounded-full"></span> Legal Entity Extraction</li>
               </ul>
             </div>
 
