@@ -182,5 +182,11 @@ Powers search grounding for precedent discovery and case law retrieval.
 
 ---
 
+## Developed by 
+1. Anuradha Krishnan (Developer Frontend and Summarization Engine)
+2. Gayathri Venkatesan (Developer Infrastructure and Agentic Drafting)
+3. Sarath Rajan Senthilkumar (Team Lead and Precedent Copilot)
+4. Vidhula Ganesh (Developer Infrastructure and Forensic Verifier)
+
 
 Built with care for the legal community. GAVEL is designed to augment, not replace, human legal expertise.
