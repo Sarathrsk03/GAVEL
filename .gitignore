@@ -105,3 +105,4 @@ ENV/
 .adk/
 utilities/
 agents/draft_helper/kanoon-dataset/
+.DS_Store
