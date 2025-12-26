@@ -11,9 +11,9 @@ GAVEL is a comprehensive AI toolkit built to transform how legal professionals h
 ### What GAVEL Does
 
 - **Accelerates case review** by distilling lengthy judgments into structured summaries
-- **Validates document authenticity** through forensic metadata and content analysis
-- **Automates legal drafting** using multi-agent collaboration and jurisdiction-specific templates
-- **Discovers relevant precedents** by grounding searches in actual case law databases
+- **Validates document authenticity** through forensic content analysis
+- **Automates legal drafting** using multi-agent collaboration and templates
+- **Discovers relevant precedents** by grounding searches in actual case law 
 
 ---
 
